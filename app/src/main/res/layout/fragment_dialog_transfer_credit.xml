@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:text="Transfer Credit"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/from"
+            android:layout_width="336dp"
+            android:layout_height="38dp"
+            android:background="@drawable/back_edittext"
+            android:hint="From"
+            android:padding="8dp"
+            android:text="From : +923314983955"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <EditText
+            android:id="@+id/to"
+            android:layout_width="336dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/back_edittext"
+            android:hint="To"
+            android:padding="8dp"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/from" />
+
+        <Button
+            android:id="@+id/transfer"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:text="Transfer"
+            android:textAllCaps="false"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/to" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            app:layout_constraintRight_toLeftOf="@id/transfer"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/to" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

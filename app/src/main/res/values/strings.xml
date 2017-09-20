@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Hop Orbits</string>
+    <string name="password">Password</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="hop">Hop</string>
+    <string name="forgot_password">Forgot password ?</string>
+    <string name="not_yet_registered">Not yet Registered ?</string>
+    <string name="hop_up">Hop Up</string>
+    <string name="name">First Name</string>
+    <string name="re_enter_password">Re-type Password</string>
+    <string name="please_user_combination_of_alphabets_and_numbers">(Please user combination of alphabets, numbers and special characters)</string>
+    <string name="a_code_was_sent_to_you_by_sms_please_enter_that_code_below_and_press_done_to_complete_registration">A Code was sent to you by SMS. Please enter that code below and press done to complete registration</string>
+    <string name="xxxxx">XXXXXX</string>
+    <string name="done">Done</string>
+    <string name="if_you_don_t_receive_code_in_30_seconds_then_please_press_the_resend_button">If you don\'t receive code in 30 seconds then please press the resend button</string>
+    <string name="resend">Resend</string>
+    <string name="no_content_yet">No Content Yet</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="quantity">Quantity</string>
+    <string name="profile">Profile</string>
+    <string name="credit_management">Credit Management</string>
+    <string name="add_credit">Add Credit</string>
+    <string name="transfer_credit">Transfer Credit</string>
+    <string name="last_name">Last Name</string>
+    <string name="email_address">Email Address</string>
+</resources>

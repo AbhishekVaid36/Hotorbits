@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:HTMLCode="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/profile"
+        android:title="@string/profile"
+        HTMLCode:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/credit_management"
+                android:title="@string/credit_management"
+                HTMLCode:showAsAction="never">
+
+                <menu>
+                    <item
+                        android:id="@+id/add_credit"
+                        android:title="@string/add_credit"
+                        HTMLCode:showAsAction="never">
+
+                    </item>
+
+                    <item
+                        android:id="@+id/transfer_credit"
+                        android:title="@string/transfer_credit"
+                        HTMLCode:showAsAction="never">
+
+                    </item>
+                </menu>
+
+            </item>
+        </menu>
+    </item>
+</menu>
