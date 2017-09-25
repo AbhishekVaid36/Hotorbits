@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+
     <application
         android:name=".connectiondetector.ConnectionDetector"
         android:allowBackup="true"
@@ -70,6 +71,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="52bb7706ea404a02398cb7087de74f162be74b61" />
+
         <activity
             android:name=".buyer.BuyerLogin"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -79,9 +81,11 @@
 
         <receiver android:name=".views.activities.accounts.SmsReceiver">
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".buyer.Categories"></activity>
     </application>
 
 </manifest>
