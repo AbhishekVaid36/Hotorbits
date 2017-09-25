@@ -42,8 +42,8 @@
 
                             <com.mikhaellopez.circularimageview.CircularImageView
                                 android:id="@+id/profile_pic"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="150dp"
+                                android:layout_height="150dp"
                                 android:src="@mipmap/uploadimage"
                                 app:civ_border_color="@color/blue"
                                 app:civ_border_width="2dp" />
@@ -66,7 +66,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Profile Name: ABC"
                                 android:textColor="@color/black"
-                                android:textSize="15dp"
+                                android:textSize="20dp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -75,9 +75,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/txtname"
                                 android:layout_marginTop="5dp"
-                                android:text="Balance:$100"
+                                android:text=""
                                 android:textColor="@color/black"
-                                android:textSize="15dp"
+                                android:textSize="20dp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
 
@@ -88,8 +88,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_alignStart="@+id/rltxt"
                             android:layout_below="@+id/rltxt"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="20dp"
                             android:background="@color/brown">
 
                             <RelativeLayout
@@ -164,15 +164,15 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/black_straight_border">
 
                 <ImageView
                     android:id="@+id/img"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@mipmap/finallogo" />
@@ -184,13 +184,13 @@
                     android:layout_margin="10dp"
                     android:layout_toLeftOf="@+id/img"
                     android:text="ABC General Store,Street 1 Mumbai"
-                    android:textSize="15dp"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
@@ -198,8 +198,8 @@
 
                 <ImageView
                     android:id="@+id/img2"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@mipmap/finallogo" />
@@ -211,13 +211,13 @@
                     android:layout_margin="10dp"
                     android:layout_toLeftOf="@+id/img2"
                     android:text="ABC General Store,Street 1 Mumbai"
-                    android:textSize="15dp"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
@@ -225,8 +225,8 @@
 
                 <ImageView
                     android:id="@+id/img3"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@mipmap/finallogo" />
@@ -238,13 +238,13 @@
                     android:layout_margin="10dp"
                     android:layout_toLeftOf="@+id/img3"
                     android:text="ABC General Store,Street 1 Mumbai"
-                    android:textSize="15dp"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
@@ -252,8 +252,8 @@
 
                 <ImageView
                     android:id="@+id/img4"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@mipmap/finallogo" />
@@ -265,13 +265,13 @@
                     android:layout_margin="10dp"
                     android:layout_toLeftOf="@+id/img4"
                     android:text="ABC General Store,Street 1 Mumbai"
-                    android:textSize="15dp"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
@@ -279,8 +279,8 @@
 
                 <ImageView
                     android:id="@+id/img5"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@mipmap/finallogo" />
@@ -292,14 +292,14 @@
                     android:layout_margin="10dp"
                     android:layout_toLeftOf="@+id/img5"
                     android:text="ABC General Store,Street 1 Mumbai"
-                    android:textSize="15dp"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
@@ -307,8 +307,8 @@
 
                 <ImageView
                     android:id="@+id/img6"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@mipmap/finallogo" />
@@ -320,7 +320,7 @@
                     android:layout_margin="10dp"
                     android:layout_toLeftOf="@+id/img6"
                     android:text="ABC General Store,Street 1 Mumbai"
-                    android:textSize="15dp"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>

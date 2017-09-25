@@ -1,6 +1,5 @@
 package com.example.tabishhussain.hopeorbits.buyer;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -25,7 +24,6 @@ public class BuyerRegister extends BaseActivity implements View.OnClickListener 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rlregister:
-                startActivity(new Intent(BuyerRegister.this, BuyerVarification.class));
                 break;
         }
     }

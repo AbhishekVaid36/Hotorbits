@@ -1,4 +1,4 @@
-package com.example.tabishhussain.hopeorbits.views.activities.accounts;
+package com.example.tabishhussain.hopeorbits.buyer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WelCome extends BaseActivity {
+public class Home extends BaseActivity {
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs";
     int amount;
@@ -30,7 +30,7 @@ public class WelCome extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wel_come);
+        setContentView(R.layout.activity_home);
         setUpToolbar("Home", false);
         txtname = (TextView) findViewById(R.id.txtname);
         txtcredit = (TextView) findViewById(R.id.txtcredit);
@@ -40,7 +40,7 @@ public class WelCome extends BaseActivity {
     }
 
     public void getBalance() {
-        retrofit2.Call<JsonObject> call = HopeOrbitApi.retrofit.showCredit(getcreditParams());
+        Call<JsonObject> call = HopeOrbitApi.retrofit.showCredit(getcreditParams());
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

@@ -11,10 +11,11 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <application
         android:name=".connectiondetector.ConnectionDetector"
         android:allowBackup="true"
@@ -23,10 +24,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".views.activities.accounts.VerificationActivity"
-            android:screenOrientation="sensorPortrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".views.activities.accounts.Splash"
             android:screenOrientation="sensorPortrait"
@@ -42,6 +39,13 @@
             android:screenOrientation="sensorPortrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".views.activities.accounts.VerificationActivity"
+            android:screenOrientation="sensorPortrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".views.activities.accounts.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".views.activities.page.AddCategoryActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
@@ -53,6 +57,9 @@
         <activity
             android:name=".views.activities.MainActivity"
             android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".buyer.Home"
+            android:screenOrientation="sensorPortrait" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -63,20 +70,18 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="52bb7706ea404a02398cb7087de74f162be74b61" />
-
-        <activity
-            android:name=".views.activities.accounts.LoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".buyer.BuyerLogin"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".buyer.BuyerRegister"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".buyer.BuyerVarification"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".views.activities.accounts.WelCome"></activity>
+
+        <receiver android:name=".views.activities.accounts.SmsReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

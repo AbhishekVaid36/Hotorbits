@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.tabishhussain.hopeorbits.R;
+import com.example.tabishhussain.hopeorbits.buyer.Home;
 import com.example.tabishhussain.hopeorbits.views.activities.BaseActivity;
 
 public class Splash extends BaseActivity implements View.OnClickListener {
@@ -29,41 +30,9 @@ public class Splash extends BaseActivity implements View.OnClickListener {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Login = sharedpreferences.getBoolean("Login", false);
         Id = sharedpreferences.getString("Id", "");
-
-//        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
-//
-//        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-//            TelephonyManager tMgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-//            String mPhoneNumber = tMgr.getLine1Number();
-//        } else {
-//            //TODO
-//        }
-//
-//
-//        TelephonyManager tMgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-//        String mPhoneNumber = tMgr.getLine1Number();
-//        TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-//
-//        // get IMEI
-//        String imei = tm.getDeviceId();
-//
-//        // get SimSerialNumber
-//        String simSerialNumber = tm.getSimSerialNumber();
-//
-//        AccountManager am = AccountManager.get(this);
-//        Account[] accounts = am.getAccounts();
-//
-//        for (Account ac : accounts) {
-//            String acname = ac.name;
-//            String actype = ac.type;
-//            // Take your time to look at all available accounts
-//            System.out.println("Accounts : " + acname + ", " + actype);
-//        }
-
-
         if (Login) {
-//            Intent in = new Intent(Splash.this, MainActivity.class);
-            Intent in = new Intent(Splash.this, WelCome.class);
+            Intent in = new Intent(Splash.this, Home.class);
+//            Intent in = new Intent(Splash.this, VerificationActivity.class);
             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(in);
             Splash.this.finish();

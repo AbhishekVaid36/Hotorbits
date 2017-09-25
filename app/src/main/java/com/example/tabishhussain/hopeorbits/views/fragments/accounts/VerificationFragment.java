@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,8 +19,10 @@ import android.widget.Toast;
 
 import com.example.tabishhussain.hopeorbits.R;
 import com.example.tabishhussain.hopeorbits.api.HopeOrbitApi;
+import com.example.tabishhussain.hopeorbits.buyer.Home;
 import com.example.tabishhussain.hopeorbits.views.activities.MainActivity;
-import com.example.tabishhussain.hopeorbits.views.activities.accounts.WelCome;
+import com.example.tabishhussain.hopeorbits.views.activities.accounts.SmsListener;
+import com.example.tabishhussain.hopeorbits.views.activities.accounts.SmsReceiver;
 import com.example.tabishhussain.hopeorbits.views.fragments.BaseFragment;
 import com.google.gson.JsonObject;
 
@@ -51,7 +54,7 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        view = inflater.inflate(R.layout.buyer_varification, container, false);
+        view = inflater.inflate(R.layout.fragment_phone_verification, container, false);
         edtotpcode = (EditText) view.findViewById(R.id.edtotpcode);
         txtverify = (TextView) view.findViewById(R.id.txtverify);
 //        btnsubmit = (Button) view.findViewById(R.id.btnsubmit);
@@ -63,6 +66,28 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
         txtverify.setOnClickListener(this);
 //        btnsubmit.setOnClickListener(this);
 //        btnresent.setOnClickListener(this);
+        SmsReceiver.bindListener(new SmsListener() {
+            @Override
+            public void messageReceived(String messageText) {
+                try {
+
+                    Log.d("Text", messageText);
+//                    Toast.makeText(getActivity(), "Message: " + messageText, Toast.LENGTH_LONG).show();
+                    edtotpcode.setText(messageText);
+                    Toast.makeText(getActivity(), "Message: " + messageText, Toast.LENGTH_LONG).show();
+                    if (edtotpcode.getText().toString().length() == 6) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                txtverify.performClick();
+                            }
+                        }, 5000);
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        });
         return view;
     }
 
@@ -101,8 +126,11 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
                                 editor.putBoolean("Login", true);
                                 editor.commit();
 
+                                Intent in = new Intent(getActivity(), Home.class);
+                                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(in);
+                                getActivity().finish();
 
-                                startActivity(new Intent(getActivity(), WelCome.class));
                             } else {
                                 Toast.makeText(getActivity(), "Invalid OTP", Toast.LENGTH_LONG).show();
                             }
@@ -115,9 +143,6 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
                     });
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 }
-                break;
-            case R.id.btnresend:
-
                 break;
             case R.id.rlmessage:
                 sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);

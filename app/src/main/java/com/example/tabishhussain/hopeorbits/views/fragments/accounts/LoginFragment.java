@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.example.tabishhussain.hopeorbits.R;
 import com.example.tabishhussain.hopeorbits.api.HopeOrbitApi;
-import com.example.tabishhussain.hopeorbits.views.activities.accounts.WelCome;
+import com.example.tabishhussain.hopeorbits.buyer.Home;
 import com.example.tabishhussain.hopeorbits.views.fragments.BaseFragment;
 import com.google.gson.JsonObject;
 
@@ -151,7 +151,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                                     editor.putString("Id", id);
                                     editor.putString("phone",phone);
                                     editor.commit();
-                                    Intent in = new Intent(getActivity(), WelCome.class);
+                                    Intent in = new Intent(getActivity(), Home.class);
                                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(in);
                                     getActivity().finish();
