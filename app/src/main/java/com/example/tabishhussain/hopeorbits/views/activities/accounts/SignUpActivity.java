@@ -21,7 +21,7 @@ public class SignUpActivity extends BaseActivity{
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, new RegistrationFragment()).commit();
-        setUpToolbar("Registration", true);
+        setUpToolbar("Registration", false);
     }
 
     @Override

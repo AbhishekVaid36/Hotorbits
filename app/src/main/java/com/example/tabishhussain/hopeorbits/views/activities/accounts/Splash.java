@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.tabishhussain.hopeorbits.R;
-import com.example.tabishhussain.hopeorbits.buyer.Home;
 import com.example.tabishhussain.hopeorbits.views.activities.BaseActivity;
 
 public class Splash extends BaseActivity implements View.OnClickListener {
@@ -22,7 +21,7 @@ public class Splash extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
-        setUpToolbar("Home", false);
+        setUpToolbar("Hoporbits", false);
         rlLogin = (RelativeLayout) findViewById(R.id.rllogin);
         rlSignup = (RelativeLayout) findViewById(R.id.rlsignup);
         rlLogin.setOnClickListener(this);
@@ -30,15 +29,13 @@ public class Splash extends BaseActivity implements View.OnClickListener {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Login = sharedpreferences.getBoolean("Login", false);
         Id = sharedpreferences.getString("Id", "");
-        if (Login) {
-            Intent in = new Intent(Splash.this, Home.class);
-//            Intent in = new Intent(Splash.this, VerificationActivity.class);
-            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(in);
-            Splash.this.finish();
-        }
-//        Intent in = new Intent(Splash.this, MainActivity.class);
-//        startActivity(in);
+//        if (Login) {
+//            Intent in = new Intent(Splash.this, Home.class);
+////            Intent in = new Intent(Splash.this, VerificationActivity.class);
+//            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(in);
+//            Splash.this.finish();
+//        }
     }
 
     @Override

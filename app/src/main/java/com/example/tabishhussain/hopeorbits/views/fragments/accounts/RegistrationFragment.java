@@ -245,6 +245,7 @@ public class RegistrationFragment extends BaseFragment implements View.OnClickLi
 
                                 Intent in = new Intent(getActivity(), VerificationActivity.class);
                                 startActivity(in);
+                                getActivity().finish();
 
                             } else {
                                 Toast.makeText(getActivity(), "Phone Number allready exist", Toast.LENGTH_LONG).show();

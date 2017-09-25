@@ -23,6 +23,6 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_content);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, new LoginFragment()).commit();
-        setUpToolbar("Login", true);
+        setUpToolbar("Login", false);
     }
 }

@@ -21,7 +21,7 @@ public class VerificationActivity extends BaseActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, new VerificationFragment()).commit();
-        setUpToolbar("Phone Verification", true);
+        setUpToolbar("Phone Verification", false);
     }
 
     @Override

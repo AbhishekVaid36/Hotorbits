@@ -127,7 +127,7 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
                                 editor.commit();
 
                                 Intent in = new Intent(getActivity(), Home.class);
-                                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(in);
                                 getActivity().finish();
 

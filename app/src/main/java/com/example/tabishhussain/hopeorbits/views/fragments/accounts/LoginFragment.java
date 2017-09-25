@@ -143,7 +143,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                                     e.printStackTrace();
                                 }
                                 if (id != null) {
-//                                    if (verified) {
+                                    if (verified) {
                                     Toast.makeText(getActivity(), "Login successfully", Toast.LENGTH_LONG).show();
                                     sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -152,13 +152,13 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                                     editor.putString("phone",phone);
                                     editor.commit();
                                     Intent in = new Intent(getActivity(), Home.class);
-                                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(in);
-                                    getActivity().finish();
+//                                    getActivity().finish();
 
-//                                    } else {
-//                                        Toast.makeText(getActivity(), "Account not verified", Toast.LENGTH_LONG).show();
-//                                    }
+                                    } else {
+                                        Toast.makeText(getActivity(), "Account not verified", Toast.LENGTH_LONG).show();
+                                    }
                                 } else {
                                     Toast.makeText(getActivity(), "Invalid credential", Toast.LENGTH_LONG).show();
                                 }
@@ -216,7 +216,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
                                             message = jsonObj.getString("message");
                                             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-
+                                            edtphone.setText("");
+                                            edtpass.setText("");
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
