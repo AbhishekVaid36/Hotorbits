@@ -2,7 +2,9 @@ package com.example.tabishhussain.hopeorbits.api;
 
         import com.google.gson.JsonObject;
 
-import java.io.IOException;
+        import org.json.JSONObject;
+
+        import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -62,13 +64,16 @@ public interface HopeOrbitApi {
 
     @POST("user")
     Call<JsonObject> registeredUser(@Body HashMap<String, Object> map);
-    @POST("user/login")
-    Call<JsonObject> loginUser(@Body HashMap<String, Object> map);
-    @POST("forgot")
-    Call<JsonObject> forgotpass(@Body HashMap<String, Object> map);
-
     @GET("verification")
     Call<JsonObject> verifyUSer(@Body HashMap<String, Object> map);
+    @POST("user/login")
+    Call<JsonObject> loginUser(@Body HashMap<String, Object> map);
+    @POST("user/forgotPassword")
+    Call<JsonObject> forgotpass(@Body HashMap<String, Object> map);
+    @POST("creditManagement/showCredit")
+    Call<JsonObject> showCredit(@Body HashMap<String, Object> map);
     @POST("list")
     Call<JsonObject> getList();
+    @POST("user/createPage")
+    Call<JSONObject> createpage(@Body HashMap<String, Object> map);
 }

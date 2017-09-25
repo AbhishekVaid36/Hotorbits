@@ -9,6 +9,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
         android:name=".connectiondetector.ConnectionDetector"
@@ -20,9 +25,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".views.activities.accounts.VerificationActivity"
-            android:screenOrientation="sensorPortrait" />
+            android:screenOrientation="sensorPortrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".views.activities.accounts.LoginActivity"
+            android:name=".views.activities.accounts.Splash"
             android:screenOrientation="sensorPortrait"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
@@ -58,7 +64,19 @@
             android:name="io.fabric.ApiKey"
             android:value="52bb7706ea404a02398cb7087de74f162be74b61" />
 
-        <activity android:name=".vendor.BusinessPage"></activity>
+        <activity
+            android:name=".views.activities.accounts.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".buyer.BuyerLogin"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".buyer.BuyerRegister"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".buyer.BuyerVarification"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".views.activities.accounts.WelCome"></activity>
     </application>
 
 </manifest>

@@ -5,15 +5,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListPopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.tabishhussain.hopeorbits.R;
@@ -27,7 +31,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,28 +42,70 @@ import retrofit2.Response;
 
 public class RegistrationFragment extends BaseFragment implements View.OnClickListener {
     View view;
-    TextView edtfirstname, edtemail, edtphone, edtpass, edtrepass;
-    Button btnsubmit;
-    String message;
+    EditText edtname, edtcountry, edtcode,edtphone, edtpass, edtconpass;
+    RelativeLayout rlRegister;
+    String message, countryCode;
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs";
+    private String[] list_designation;
+    private ListPopupWindow lpw;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         view = inflater.inflate(R.layout.fragment_sign_up, container, false);
-        edtfirstname = (TextView) view.findViewById(R.id.fname);
-        edtemail = (TextView) view.findViewById(R.id.email);
-        edtphone = (TextView) view.findViewById(R.id.phone);
-        edtpass = (TextView) view.findViewById(R.id.password);
-        edtrepass = (TextView) view.findViewById(R.id.re_password);
-        btnsubmit = (Button) view.findViewById(R.id.register);
-        btnsubmit.setOnClickListener(this);
+        edtname = (EditText) view.findViewById(R.id.edtname);
+        edtcountry = (EditText) view.findViewById(R.id.edtcountry);
+        edtcode= (EditText) view.findViewById(R.id.edtcode);
+        edtphone = (EditText) view.findViewById(R.id.edtphone);
+        edtpass = (EditText) view.findViewById(R.id.edtpass);
+        edtconpass = (EditText) view.findViewById(R.id.edtconphone);
+        rlRegister = (RelativeLayout) view.findViewById(R.id.rlregister);
+        rlRegister.setOnClickListener(this);
 
-        edtfirstname.addTextChangedListener(new TextWatcher() {
+        edtcountry.setInputType(InputType.TYPE_NULL);
+        edtcode.setInputType(InputType.TYPE_NULL);
+        edtcountry.setText("Pakistan");
+        edtcode.setText("+92");
+        countryCode = "+92";
+        list_designation = new String[]{"India", "Pakistan", "United States of America"};
+        lpw = new ListPopupWindow(getActivity());
+        lpw.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list_designation));
+        lpw.setAnchorView(edtcountry);
+        lpw.setModal(true);
+        lpw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = list_designation[position];
+                edtcountry.setText(item);
+                if (position == 0)
+                    countryCode = "+91";
+                else if (position == 1)
+                    countryCode = "+92";
+                else if (position == 2)
+                    countryCode = "+1";
+
+                edtcode.setText(countryCode);
+                lpw.dismiss();
+            }
+        });
+
+        edtcountry.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                lpw.show();
+
+
+                return false;
+            }
+        });
+
+        edtname.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 // put the code of save Database here
-                edtfirstname.setError(null);
+                edtname.setError(null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -71,10 +116,10 @@ public class RegistrationFragment extends BaseFragment implements View.OnClickLi
         });
 
 
-        edtemail.addTextChangedListener(new TextWatcher() {
+        edtcountry.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 // put the code of save Database here
-                edtemail.setError(null);
+                edtcountry.setError(null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -88,6 +133,13 @@ public class RegistrationFragment extends BaseFragment implements View.OnClickLi
             public void afterTextChanged(Editable s) {
                 // put the code of save Database here
                 edtphone.setError(null);
+//                if (!s.toString().contains(countryCode)) {
+//                    edtphone.setText(countryCode);
+//                    SpannableString spannablecontent = new SpannableString(edtphone.getText().toString());
+//                    Selection.setSelection(spannablecontent, edtphone.getText().length());
+//
+//                }
+
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -110,10 +162,10 @@ public class RegistrationFragment extends BaseFragment implements View.OnClickLi
             }
         });
 
-        edtrepass.addTextChangedListener(new TextWatcher() {
+        edtconpass.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 // put the code of save Database here
-                edtrepass.setError(null);
+                edtconpass.setError(null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -126,19 +178,15 @@ public class RegistrationFragment extends BaseFragment implements View.OnClickLi
     }
 
     private boolean validateData() {
-        if (TextUtils.isEmpty(edtfirstname.getText().toString())) {
-            edtfirstname.setError("Please provide first name");
+        if (TextUtils.isEmpty(edtname.getText().toString())) {
+            edtname.setError("Please provide name");
             return false;
         }
-        if (TextUtils.isEmpty(edtemail.getText().toString())) {
-            edtemail.setError("Please provide email");
+        if (TextUtils.isEmpty(edtcountry.getText().toString())) {
+            edtcountry.setError("Please provide country");
             return false;
         }
-        if (!Patterns.EMAIL_ADDRESS.matcher(edtemail.getText().toString()).find()) {
-            edtemail.setError("Please provide a valid email");
-            return false;
-        }
-        Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+//        Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
         if (TextUtils.isEmpty(edtphone.getText().toString())) {
             edtphone.setError("Please provide phone number");
             return false;
@@ -147,16 +195,16 @@ public class RegistrationFragment extends BaseFragment implements View.OnClickLi
             edtpass.setError("Please provide password");
             return false;
         }
-        if (!pattern.matcher(edtpass.getText().toString()).find()) {
-            edtpass.setError("Password is too weak");
+//        if (!pattern.matcher(edtpass.getText().toString()).find()) {
+//            edtpass.setError("Password is too weak");
+//            return false;
+//        }
+        if (TextUtils.isEmpty(edtconpass.getText().toString())) {
+            edtconpass.setError("Please re enter password");
             return false;
         }
-        if (TextUtils.isEmpty(edtrepass.getText().toString())) {
-            edtrepass.setError("Please re enter password");
-            return false;
-        }
-        if (!edtpass.getText().toString().equalsIgnoreCase(edtrepass.getText().toString())) {
-            edtrepass.setError("Password mismatch");
+        if (!edtpass.getText().toString().equalsIgnoreCase(edtconpass.getText().toString())) {
+            edtconpass.setError("Password mismatch");
             return false;
         }
         return true;
@@ -165,7 +213,7 @@ public class RegistrationFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.register:
+            case R.id.rlregister:
                 if (validateData()) {
                     retrofit2.Call<JsonObject> call = HopeOrbitApi.retrofit.registeredUser(getParams());
                     call.enqueue(new Callback<JsonObject>() {
@@ -192,10 +240,14 @@ public class RegistrationFragment extends BaseFragment implements View.OnClickLi
                             if (message.equalsIgnoreCase("USER_REGISTER_SUCCESSFULLY")) {
                                 sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                                editor.putString("phone",edtphone.getText().toString());
+                                editor.putString("phone", edtcode.getText().toString()+edtphone.getText().toString());
                                 editor.commit();
 
-                                startActivity(new Intent(getActivity(), VerificationActivity.class));
+                                Intent in = new Intent(getActivity(), VerificationActivity.class);
+                                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(in);
+                                getActivity().finish();
+
                             } else {
                                 Toast.makeText(getActivity(), "Phone Number allready exist", Toast.LENGTH_LONG).show();
                             }
@@ -213,10 +265,10 @@ public class RegistrationFragment extends BaseFragment implements View.OnClickLi
 
     public HashMap<String, Object> getParams() {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("name", edtfirstname.getText().toString());
-        params.put("userEmail", edtemail.getText().toString());
+        params.put("name", edtname.getText().toString());
+        params.put("userEmail", edtcountry.getText().toString());
         params.put("userPassword", edtpass.getText().toString());
-        params.put("phoneNumber", edtphone.getText().toString());
+        params.put("phoneNumber",edtcode.getText().toString()+ edtphone.getText().toString());
         params.put("verified", false);
         params.put("authyId", "1");
         return params;

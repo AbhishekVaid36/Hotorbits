@@ -8,20 +8,15 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,8 +53,6 @@ public class PageListFragment extends BaseFragment implements View.OnClickListen
     private static final int REQUEST_CODE_PERMISSIONS = 222;
     View view;
     ListView listView;
-    TextView txtmessage;
-    FloatingActionButton fab;
 
     JSONArray totalshop = null;
     int shoplength;
@@ -71,16 +64,16 @@ public class PageListFragment extends BaseFragment implements View.OnClickListen
     public static Double mLatitude = 0.0, mLongitude = 0.0;
     JSONObject jsonresponce;
     private ProgressDialog pDialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         view = inflater.inflate(R.layout.list_fragment, container, false);
         listView = (ListView) view.findViewById(R.id.listview);
-        txtmessage = (TextView) view.findViewById(R.id.txtempty);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+//        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         checkForRequiredPermissions();
-        fab.setOnClickListener(this);
+//        fab.setOnClickListener(this);
 //        bindView();
         initialize();
         getlistData();
@@ -157,10 +150,8 @@ public class PageListFragment extends BaseFragment implements View.OnClickListen
         listView.setAdapter(new MyCustomAdapter(getActivity(), list));
         //			ListUtils.setDynamicHeight(gridview);
         if (shoplength == 0) {
-            txtmessage.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
         } else {
-            txtmessage.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
         }
     }
@@ -186,10 +177,8 @@ public class PageListFragment extends BaseFragment implements View.OnClickListen
         }
 
         class ViewHolder {
-            TextView txtname, txtaddress, txtemail, txtphone, txtwebsite;
-            ImageView imgcall;
+            TextView txtname, txtaddress, txtemail;
             CircleImageView imgshop, imgdummy;
-            RelativeLayout rltop;
         }
 
         @Override
@@ -208,10 +197,6 @@ public class PageListFragment extends BaseFragment implements View.OnClickListen
                 holder.txtname = (TextView) paramView.findViewById(R.id.txtname);
                 holder.txtaddress = (TextView) paramView.findViewById(R.id.txtaddress);
                 holder.txtemail = (TextView) paramView.findViewById(R.id.txtemail);
-                holder.txtphone = (TextView) paramView.findViewById(R.id.txtphone);
-                holder.txtwebsite = (TextView) paramView.findViewById(R.id.txtwebsite);
-                holder.rltop = (RelativeLayout) paramView.findViewById(R.id.rltop);
-                holder.imgcall = (ImageView) paramView.findViewById(R.id.imgcall);
                 holder.imgshop = (CircleImageView) paramView.findViewById(R.id.imgshop);
                 holder.imgdummy = (CircleImageView) paramView.findViewById(R.id.imgdummy);
                 paramView.setTag(holder);
@@ -223,8 +208,6 @@ public class PageListFragment extends BaseFragment implements View.OnClickListen
             holder.txtname.setText(h.getName());
             holder.txtaddress.setText(h.getAddress() + ", " + h.getCity() + ", " + h.getState() + ", " + h.getCountry() + "," + h.getZipcode());
             holder.txtemail.setText(h.getEmail());
-            holder.txtphone.setText(h.getPhone());
-            holder.txtwebsite.setText(h.getEmail());
             Bitmap bitmap = h.getBitmap();
             if (!h.getImage().equalsIgnoreCase("")) {
                 holder.imgshop.setImageBitmap(bitmap);
@@ -236,22 +219,6 @@ public class PageListFragment extends BaseFragment implements View.OnClickListen
                 holder.imgdummy.setBackgroundResource(R.mipmap.ic_launcher);
             }
 
-            holder.txtphone.setTag(paramInt);
-            holder.txtphone.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View vv) {
-                    // TODO Auto-generated method stub
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" + holder.txtphone.getText().toString()));
-
-                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                    }
-                    startActivity(callIntent);
-
-                }
-            });
             return paramView;
         }
     }
