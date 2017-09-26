@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/actionbar_toolbar" />
+    <include
+        android:id="@+id/action"
+        layout="@layout/actionbar_toolbar" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/action"
         android:layout_margin="10dp"
         android:background="@color/brown">
 
@@ -33,8 +37,8 @@
 
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/profile_pic"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
                         android:src="@mipmap/uploadimage"
                         app:civ_border_color="@color/blue"
                         app:civ_border_width="2dp" />
@@ -49,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="5dp">
+                    android:layout_margin="10dp">
 
                     <TextView
                         android:id="@+id/txtname"
@@ -57,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:text="Profile Name: ABC"
                         android:textColor="@color/black"
-                        android:textSize="15dp"
+                        android:textSize="20dp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -65,10 +69,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtname"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="5dp"
                         android:text=""
                         android:textColor="@color/black"
-                        android:textSize="15dp"
+                        android:textSize="20dp"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
@@ -79,8 +83,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignStart="@+id/rltxt"
                     android:layout_below="@+id/rltxt"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
                     android:background="@color/brown">
 
                     <RelativeLayout
@@ -152,9 +156,12 @@
                 android:background="#cccc" />
         </RelativeLayout>
     </LinearLayout>
+
     <RelativeLayout
+        android:id="@+id/rlheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
@@ -166,16 +173,18 @@
             android:padding="10dp"
             android:text=""
             android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textSize="25dp"
             android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
+        android:layout_above="@+id/rlsubmit"
+        android:layout_below="@+id/rlheader"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
         android:background="@drawable/black_straight_border">
 
         <GridView
@@ -184,7 +193,25 @@
             android:layout_height="match_parent"
             android:horizontalSpacing="30dp"
             android:numColumns="3"
-            android:verticalSpacing="20dp"
-            android:padding="3dp"/>
+            android:padding="5dp"
+            android:verticalSpacing="20dp" />
     </RelativeLayout>
-</LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlsubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:background="@color/blue">
+
+        <TextView
+            android:id="@+id/txtshoping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            android:text="FINISHED SHOPING"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</RelativeLayout>

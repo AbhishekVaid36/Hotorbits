@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 
 public class Holder {
     String Id, Name, Phone, Email, City, State, Country, Address, Zipcode, Distance, Lat, Longi, Image;
-Bitmap bitmap;
+    Bitmap bitmap;
 
     public String getImage() {
         return Image;

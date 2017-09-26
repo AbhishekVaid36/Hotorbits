@@ -16,7 +16,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +26,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.tabishhussain.hopeorbits.R;
 import com.example.tabishhussain.hopeorbits.api.Constant;
+import com.example.tabishhussain.hopeorbits.connectiondetector.ConnectionDetector;
 import com.example.tabishhussain.hopeorbits.holder.PageModelList;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,12 +49,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.example.tabishhussain.hopeorbits.api.HopeOrbitApi.retrofit;
-
 public class BusinessPage extends AppCompatActivity implements View.OnClickListener, Constant {
     String[] spvalue1;
     Spinner spiner1;
@@ -59,6 +59,7 @@ public class BusinessPage extends AppCompatActivity implements View.OnClickListe
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     CircularImageView img_pic;
     String base64Image;
+    byte[] byteArrayImage;
     PageModelList modelList;
     ArrayList<PageModelList> modelLists = new ArrayList<>();
     @Override
@@ -180,7 +181,7 @@ public class BusinessPage extends AppCompatActivity implements View.OnClickListe
                 Bitmap bm = BitmapFactory.decodeFile(selectedPhoto);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-                byte[] byteArrayImage = baos.toByteArray();
+               byteArrayImage = baos.toByteArray();
 
                 base64Image = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
             } else if (requestCode == REQUEST_CAMERA)
@@ -192,7 +193,7 @@ public class BusinessPage extends AppCompatActivity implements View.OnClickListe
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        byte[] byteArrayImage = bytes.toByteArray();
+        byteArrayImage = bytes.toByteArray();
 
         base64Image = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
         File destination = new File(Environment.getExternalStorageDirectory(),
@@ -271,8 +272,8 @@ public class BusinessPage extends AppCompatActivity implements View.OnClickListe
     }
 
     public void postData() {
-        showpDialog();
-        /*final String URL = "http://13.58.110.101:8080/hoprepositoryweb/user/createPage";
+      /*  showpDialog();
+        final String URL = "http://13.58.110.101:8080/hoprepositoryweb/user/createPage";
         CustomRequest jsonReq = new CustomRequest(Request.Method.POST, URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -290,10 +291,10 @@ public class BusinessPage extends AppCompatActivity implements View.OnClickListe
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("userId", "c5e5870e-1e89-4a6e-b087-a129ba4fd85d");
+                params.put("userId", "245fdc99-8466-4b54-9b4c-21904094b39e");
                 JSONObject user = new JSONObject();
                 try {
-                    user.put("pageName", "Grocery");
+                    user.put("pageName", "Grocery7");
                     user.put("currency", "IN");
                     user.put("details", "welcome");
                     user.put("pageImage", base64Image);
@@ -315,19 +316,18 @@ public class BusinessPage extends AppCompatActivity implements View.OnClickListe
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
         jsonReq.setRetryPolicy(policy);
-        ConnectionDetector.getInstance().addToRequestQueue(jsonReq);
-*/
+        ConnectionDetector.getInstance().addToRequestQueue(jsonReq);*/
 
 // Post params to be sent to the server
-       /* HashMap<String, String> params = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<String, String>();
         try {
-            params.put("userId", "580ccfc3-c675-4d5c-a58c-3882e509b55a8");
+            params.put("userId", "245fdc99-8466-4b54-9b4c-21904094b39e");
             JSONObject user = new JSONObject();
             try {
-                user.put("pageName", "Grocery");
+                user.put("pageName", "Grocery9");
                 user.put("currency", "IN");
                 user.put("details", "welcome");
-                user.put("pageImage","");
+                user.put("pageImage",byteArrayImage);
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -340,7 +340,7 @@ public class BusinessPage extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
         }
 
-
+        final String URL = "http://13.58.110.101:8080/hoprepositoryweb/user/createPage";
         JsonObjectRequest request_json = new JsonObjectRequest(URL, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -362,9 +362,9 @@ public class BusinessPage extends AppCompatActivity implements View.OnClickListe
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
         request_json.setRetryPolicy(policy);
-        ConnectionDetector.getInstance().addToRequestQueue(request_json);*/
+        ConnectionDetector.getInstance().addToRequestQueue(request_json);
 
-        Call<JSONObject> calls = retrofit.createpage(getposting());
+        /*Call<JSONObject> calls = retrofit.createpage(getposting());
         calls.enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
@@ -396,7 +396,7 @@ public class BusinessPage extends AppCompatActivity implements View.OnClickListe
             public void onFailure(Call<JSONObject> call, Throwable t) {
                 Log.e("errorqqq", t.toString());
             }
-        });
+        });*/
     }
     private HashMap<String, Object> getposting() {
         HashMap<String, Object> givepostpage = new HashMap<>();

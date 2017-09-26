@@ -65,7 +65,7 @@ public interface HopeOrbitApi {
 
     @POST("user")
     Call<JsonObject> registeredUser(@Body HashMap<String, Object> map);
-    @GET("verification")
+    @POST("verification")
     Call<JsonObject> verifyUSer(@Body HashMap<String, Object> map);
     @POST("user/login")
     Call<JsonObject> loginUser(@Body HashMap<String, Object> map);
@@ -83,6 +83,6 @@ public interface HopeOrbitApi {
 //    @GET("user/populatePage?order=desc&sort=activity&site=stackoverflow")
 //    Call<SOAnswersResponse> getStores();
 
-    @GET("api/about")
-    Call<JsonObject> getStores(@Query("show") String tags);
+    @GET("user/populatePage")
+    Call<JsonObject> getStores(@Query("id") String tags);
 }

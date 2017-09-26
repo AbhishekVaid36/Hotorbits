@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+    <!-- <uses-permission-sdk-23 android:name="android.permission.READ_SMS"/> -->
     <application
         android:name=".connectiondetector.ConnectionDetector"
         android:allowBackup="true"
@@ -85,7 +86,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".buyer.Categories"></activity>
+        <activity android:name=".buyer.Categories" />
+        <activity android:name=".vendor.BusinessPage" />
+        <activity android:name=".buyer.CategoriesItems"></activity>
     </application>
 
 </manifest>

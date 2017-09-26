@@ -1,11 +1,15 @@
 package com.example.tabishhussain.hopeorbits.views.fragments.accounts;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,7 +24,6 @@ import android.widget.Toast;
 import com.example.tabishhussain.hopeorbits.R;
 import com.example.tabishhussain.hopeorbits.api.HopeOrbitApi;
 import com.example.tabishhussain.hopeorbits.buyer.Home;
-import com.example.tabishhussain.hopeorbits.views.activities.MainActivity;
 import com.example.tabishhussain.hopeorbits.views.activities.accounts.SmsListener;
 import com.example.tabishhussain.hopeorbits.views.activities.accounts.SmsReceiver;
 import com.example.tabishhussain.hopeorbits.views.fragments.BaseFragment;
@@ -30,7 +33,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +54,7 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs";
     RelativeLayout rlmessage, rlcall;
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +72,9 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
         txtverify.setOnClickListener(this);
 //        btnsubmit.setOnClickListener(this);
 //        btnresent.setOnClickListener(this);
+//        checkAndRequestPermissions();
+//        if(requestSmsPermission())
+//        {
         SmsReceiver.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {
@@ -88,7 +97,42 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
                 }
             }
         });
+//        }
+
         return view;
+    }
+
+    private void requestSmsPermission() {
+        String permission = Manifest.permission.READ_SMS;
+        int grant = ContextCompat.checkSelfPermission(getActivity(), permission);
+        if (grant != PackageManager.PERMISSION_GRANTED) {
+            String[] permission_list = new String[1];
+            permission_list[0] = permission;
+            ActivityCompat.requestPermissions(getActivity(), permission_list, 1);
+        }
+    }
+
+    private boolean checkAndRequestPermissions() {
+        int recievesms = ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.RECEIVE_SMS);
+        int readsms = ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_SMS);
+        int sendsms = ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.SEND_SMS);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (recievesms != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.RECEIVE_SMS);
+        }
+        if (readsms != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.READ_SMS);
+        }
+        if (sendsms != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.SEND_SMS);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(getActivity(), listPermissionsNeeded.toArray
+                    (new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -141,7 +185,7 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
                             Log.d(TAG, t.toString());
                         }
                     });
-                    startActivity(new Intent(getActivity(), MainActivity.class));
+//                    startActivity(new Intent(getActivity(), MainActivity.class));
                 }
                 break;
             case R.id.rlmessage:
@@ -173,6 +217,7 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
         HashMap<String, Object> params = new HashMap<>();
         params.put("phoneNumber", sharedpreferences.getString("phone", ""));
         params.put("code", edtotpcode.getText().toString());
+        params.put("verified", true);
         return params;
     }
 }
