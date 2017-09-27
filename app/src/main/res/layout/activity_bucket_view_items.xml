@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/actionbar_toolbar" />
+    <include
+        android:id="@+id/actionbar"
+        layout="@layout/actionbar_toolbar" />
 
     <LinearLayout
+        android:id="@+id/layoutheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/actionbar"
         android:layout_margin="10dp"
         android:background="@color/brown">
 
@@ -96,13 +100,13 @@
                             android:layout_height="wrap_content">
 
                             <RelativeLayout
-                                android:id="@+id/rlcart"
+                                android:id="@+id/rlheader1"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentRight="true"
                                 app:layout_widthPercent="50%">
 
                                 <ImageView
-                                    android:id="@+id/imgcart"
+                                    android:id="@+id/txtwebsiute"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
@@ -116,7 +120,7 @@
                                 android:id="@+id/view1"
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
-                                android:layout_toLeftOf="@+id/rlcart"
+                                android:layout_toLeftOf="@+id/rlheader1"
                                 android:background="@color/brown" />
 
 
@@ -154,28 +158,69 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/rlfirst"
+        android:id="@+id/rlbucket"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/rlfooter"
+        android:layout_below="@+id/layoutheader"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
         <ListView
-            android:id="@+id/storelistview"
+            android:id="@+id/bucketview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="5dp"></ListView>
-        <TextView
-            android:id="@+id/txtemptylist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Not any page/store yet"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:visibility="gone"/>
 
     </RelativeLayout>
 
-</LinearLayout>
+    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rlfooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/txtcancel"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/txtremove"
+            android:background="@drawable/black_straight_border"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="Cancel"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            app:layout_widthPercent="35%" />
+
+        <TextView
+            android:id="@+id/txtremove"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/black_straight_border"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="Remove"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            app:layout_widthPercent="35%" />
+
+        <TextView
+            android:id="@+id/txtorder"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txtremove"
+            android:background="@drawable/black_straight_border"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="Order"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            app:layout_widthPercent="35%" />
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+</RelativeLayout>

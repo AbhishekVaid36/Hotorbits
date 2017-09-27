@@ -88,7 +88,9 @@
 
         <activity android:name=".buyer.Categories" />
         <activity android:name=".vendor.BusinessPage" />
-        <activity android:name=".buyer.CategoriesItems"></activity>
+        <activity android:name=".buyer.CategoriesItems" />
+        <activity android:name=".buyer.BucketView" />
+        <activity android:name=".buyer.BucketViewItems"></activity>
     </application>
 
 </manifest>

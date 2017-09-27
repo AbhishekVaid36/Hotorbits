@@ -1,10 +1,16 @@
 package com.example.tabishhussain.hopeorbits.buyer;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,29 +41,39 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Home extends BaseActivity {
+public class Home extends BaseActivity implements View.OnClickListener{
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs";
     public static int amount;
-    TextView txtname, txtcredit;
+    TextView txtname, txtcredit, txtemptylist;
     String pageModelList, pageID, pageName, currency, details, pageImage, errorMessage, categoryModels;
     String categoryID, categoryName, error, categoryImage, itemModelSet;
     ArrayList<StoreListHolder> list = new ArrayList<StoreListHolder>();
     ListView storelistview;
-
+    RelativeLayout rlcart;
+    AlertDialog.Builder alertDialog;
+    AlertDialog mDialog2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setUpToolbar("Home", false);
+        initpDialog();
         txtname = (TextView) findViewById(R.id.txtname);
         txtcredit = (TextView) findViewById(R.id.txtcredit);
+        txtemptylist = (TextView) findViewById(R.id.txtemptylist);
+        rlcart = (RelativeLayout) findViewById(R.id.rlcart);
         storelistview = (ListView) findViewById(R.id.storelistview);
+        rlcart.setOnClickListener(this);
+
         getBalance();
-        getStores();
+//        getStores();
+//        new GetAllPages().execute();
     }
 
     public void getBalance() {
+        showpDialog();
         Call<JsonObject> call = HopeOrbitApi.retrofit.showCredit(getcreditParams());
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -80,11 +96,15 @@ public class Home extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
+//                hidepDialog();
+                getStores();
+//                new GetAllPages().execute();
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("Tag", t.toString());
+                hidepDialog();
             }
         });
     }
@@ -96,7 +116,62 @@ public class Home extends BaseActivity {
         return params;
     }
 
+    public class GetAllPages extends AsyncTask<String, String, String> {
+//        private ProgressDialog pdia;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            showpDialog();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            JSONParser jParser = new JSONParser();
+            // getting JSON string from URL//fname,lname,email,pwd,pwd2,zipcode,month,day,subscriber      checkuserlogin=1,user_login=emailid,user_pass=password
+            JSONObject json = jParser.getJSONFromUrl(getResources().getString(R.string.url) + "getAllPages");
+            try {
+                JSONArray jsonArray = new JSONArray(json.toString());
+                int length = jsonArray.length();
+
+                for (int i = 0; i < length; i++) {
+                    JSONObject ob = jsonArray.getJSONObject(i);
+                    pageID = ob.getString("pageID");
+                    pageName = ob.getString("pageName");
+                    currency = ob.getString("currency");
+                    details = ob.getString("details");
+                    pageImage = ob.getString("pageImage");
+                    errorMessage = ob.getString("errorMessage");
+                    categoryModels = ob.getString("categoryModels");
+                    StoreListHolder h = new StoreListHolder();
+                    h.setPageID(pageID);
+                    h.setPageName(pageName);
+                    h.setCurrency(currency);
+                    h.setDetails(details);
+                    h.setPageImage(pageImage);
+                    h.setErrorMessage(errorMessage);
+                    h.setCategoryModels(categoryModels);
+                    list.add(h);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            hidepDialog();
+            storelistview.setAdapter(new MyCustomAdapter(Home.this, list));
+        }
+
+    }
+
     public void getStores() {
+//        showpDialog();
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Call<JsonObject> call = HopeOrbitApi.retrofit.getStores("245fdc99-8466-4b54-9b4c-21904094b39e");
         call.enqueue(new Callback<JsonObject>() {
@@ -149,7 +224,13 @@ public class Home extends BaseActivity {
 //
 //                                }
                             }
-                            storelistview.setAdapter(new MyCustomAdapter(Home.this, list));
+                            if (list.size() > 0) {
+                                storelistview.setAdapter(new MyCustomAdapter(Home.this, list));
+                                txtemptylist.setVisibility(View.GONE);
+                            } else {
+                                txtemptylist.setVisibility(View.VISIBLE);
+                            }
+
                         }
 
                     } catch (JSONException e) {
@@ -164,15 +245,25 @@ public class Home extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
+                hidepDialog();
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("Tag", t.toString());
+                hidepDialog();
             }
         });
     }
-
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rlcart:
+                Intent in = new Intent(Home.this, BucketView.class);
+                startActivity(in);
+                break;
+        }
+    }
     class MyCustomAdapter extends BaseAdapter {
 
         LayoutInflater inflater;
@@ -223,6 +314,15 @@ public class Home extends BaseActivity {
             StoreListHolder h = list.get(paramInt);
             String name = h.getPageName();
             holder.txtstorename.setText(name);
+            if ((!h.getPageImage().equalsIgnoreCase("null")) && (!h.getPageImage().isEmpty())) {
+                byte[] decodedString = Base64.decode(h.getPageImage(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                holder.imgstore.setImageBitmap(decodedByte);
+            }
+            else {
+                holder.imgstore.setBackgroundResource(R.mipmap.uploadimage);
+            }
+
             holder.rlstore.setTag(paramInt);
             holder.rlstore.setOnClickListener(new View.OnClickListener() {
 
@@ -240,7 +340,8 @@ public class Home extends BaseActivity {
                         categoryModels = h1.getCategoryModels();
                         Intent in = new Intent(Home.this, Categories.class);
                         in.putExtra("categoryModels", categoryModels);
-                        in.putExtra("storename",h1.getPageName());
+                        in.putExtra("pageID", h1.getPageID());
+                        in.putExtra("storename", h1.getPageName());
                         startActivity(in);
                     }
                 }
@@ -248,5 +349,43 @@ public class Home extends BaseActivity {
             return paramView;
         }
     }
+    protected void initpDialog() {
+        alertDialog = new AlertDialog.Builder(Home.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.progress, null);
+        alertDialog.setView(convertView);
+    }
 
+    protected void showpDialog() {
+        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        double x = Math.pow(dm.widthPixels/dm.xdpi,2);
+        double y = Math.pow(dm.heightPixels/dm.ydpi,2);
+        Double screenInches = Math.sqrt(x+y);
+
+        Integer inch = screenInches.intValue();
+        if(inch >= 5)
+        {
+            if (tabletSize) {
+                mDialog2 = alertDialog.show();
+                mDialog2.getWindow().setLayout(220, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                mDialog2.setCancelable(false);
+            } else {
+                mDialog2 = alertDialog.show();
+                mDialog2.getWindow().setLayout(550, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                mDialog2.setCancelable(false);
+            }
+        }
+        else
+        {
+            mDialog2 = alertDialog.show();
+            mDialog2.getWindow().setLayout(300, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            mDialog2.setCancelable(false);
+        }
+    }
+
+    protected void hidepDialog() {
+        mDialog2.cancel();
+    }
 }

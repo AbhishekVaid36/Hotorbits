@@ -5,29 +5,20 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rlstore"
+        android:id="@+id/rlcart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/black_straight_border">
 
-        <ImageView
-            android:id="@+id/imgstore"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-           android:layout_margin="5dp"/>
-
         <TextView
-            android:id="@+id/txtstorename"
+            android:id="@+id/txtcartname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:layout_toLeftOf="@+id/imgstore"
             android:text="ABC General Store,Street 1 Mumbai"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </RelativeLayout>
 </LinearLayout>

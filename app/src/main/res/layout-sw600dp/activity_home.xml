@@ -96,13 +96,13 @@
                             android:layout_height="wrap_content">
 
                             <RelativeLayout
-                                android:id="@+id/rlheader1"
+                                android:id="@+id/rlcart"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentRight="true"
                                 app:layout_widthPercent="50%">
 
                                 <ImageView
-                                    android:id="@+id/txtwebsiute"
+                                    android:id="@+id/imgcart"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
@@ -116,7 +116,7 @@
                                 android:id="@+id/view1"
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
-                                android:layout_toLeftOf="@+id/rlheader1"
+                                android:layout_toLeftOf="@+id/rlcart"
                                 android:background="@color/brown" />
 
 
@@ -165,6 +165,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="5dp"></ListView>
+        <TextView
+            android:id="@+id/txtemptylist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not any page/store yet"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 </LinearLayout>

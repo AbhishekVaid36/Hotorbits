@@ -96,13 +96,13 @@
                             android:layout_height="wrap_content">
 
                             <RelativeLayout
-                                android:id="@+id/rlcart"
+                                android:id="@+id/rlheader1"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentRight="true"
                                 app:layout_widthPercent="50%">
 
                                 <ImageView
-                                    android:id="@+id/imgcart"
+                                    android:id="@+id/txtwebsiute"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
@@ -116,7 +116,7 @@
                                 android:id="@+id/view1"
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
-                                android:layout_toLeftOf="@+id/rlcart"
+                                android:layout_toLeftOf="@+id/rlheader1"
                                 android:background="@color/brown" />
 
 
@@ -161,7 +161,7 @@
         android:layout_marginRight="10dp">
 
         <ListView
-            android:id="@+id/storelistview"
+            android:id="@+id/cartlistview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="5dp"></ListView>
@@ -169,13 +169,12 @@
             android:id="@+id/txtemptylist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Not any page/store yet"
+            android:text="Cart is empty"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textSize="20dp"
             android:textColor="@color/black"
             android:visibility="gone"/>
-
     </RelativeLayout>
 
 </LinearLayout>

@@ -1,9 +1,12 @@
 package com.example.tabishhussain.hopeorbits.buyer;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +27,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Categories extends AppCompatActivity {
+public class Categories extends AppCompatActivity implements View.OnClickListener{
     GridView gridview;
     String categoryModels;
-    String categoryID, categoryName, error, categoryImage, itemModelSet;
+    String pageID, pageName, categoryID, categoryName, error, categoryImage, itemModelSet;
     ArrayList<StoreListHolder> list = new ArrayList<StoreListHolder>();
-    TextView txtstorename,txtname, txtcredit;;
-
+    TextView txtstorename, txtname, txtcredit, txtemptylist;
+    RelativeLayout rlcart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +42,14 @@ public class Categories extends AppCompatActivity {
         gridview = (GridView) findViewById(R.id.gridview);
         txtstorename = (TextView) findViewById(R.id.txtstorename);
         txtcredit = (TextView) findViewById(R.id.txtcredit);
+        txtemptylist = (TextView) findViewById(R.id.txtemptylist);
+        rlcart = (RelativeLayout) findViewById(R.id.rlcart);
         txtcredit.setText("Balance: \u20A8" + Home.amount);
         Intent in = getIntent();
         categoryModels = in.getStringExtra("categoryModels");
-        txtstorename.setText(in.getStringExtra("storename"));
+        pageName = in.getStringExtra("pageName");
+        pageID = in.getStringExtra("pageID");
+        txtstorename.setText(pageName);
         try {
             JSONArray jsonArray = new JSONArray(categoryModels);
             int length = jsonArray.length();
@@ -65,9 +72,23 @@ public class Categories extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        gridview.setAdapter(new MyCustomAdapter(Categories.this, list));
+        if (list.size() > 0) {
+            gridview.setAdapter(new MyCustomAdapter(Categories.this, list));
+            txtemptylist.setVisibility(View.GONE);
+        } else {
+            txtemptylist.setVisibility(View.VISIBLE);
+        }
+        rlcart.setOnClickListener(this);
     }
-
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rlcart:
+                Intent in = new Intent(Categories.this, BucketView.class);
+                startActivity(in);
+                break;
+        }
+    }
     class MyCustomAdapter extends BaseAdapter {
 
         LayoutInflater inflater;
@@ -118,6 +139,13 @@ public class Categories extends AppCompatActivity {
             StoreListHolder h = list.get(paramInt);
             String name = h.getCategoryName();
             holder.txtcategoryname.setText(name);
+            if ((!h.getCategoryImage().equalsIgnoreCase("null")) && (!h.getCategoryImage().isEmpty())) {
+                byte[] decodedString = Base64.decode(h.getCategoryImage(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                holder.imgcategory.setImageBitmap(decodedByte);
+            }else {
+                holder.imgcategory.setBackgroundResource(R.mipmap.uploadimage);
+            }
             holder.rlcategory.setTag(paramInt);
             holder.rlcategory.setOnClickListener(new View.OnClickListener() {
 
@@ -135,7 +163,10 @@ public class Categories extends AppCompatActivity {
                         itemModelSet = h1.getItemModelSet();
                         Intent in = new Intent(Categories.this, CategoriesItems.class);
                         in.putExtra("itemModelSet", itemModelSet);
-                        in.putExtra("categoryName",h1.getCategoryName());
+                        in.putExtra("pageID", pageID);
+                        in.putExtra("pageName", pageName);
+                        in.putExtra("categoryID", h1.getCategoryID());
+                        in.putExtra("categoryName", h1.getCategoryName());
                         startActivity(in);
                     }
                 }

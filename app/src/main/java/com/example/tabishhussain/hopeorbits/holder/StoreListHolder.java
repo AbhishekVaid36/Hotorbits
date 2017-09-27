@@ -6,8 +6,9 @@ package com.example.tabishhussain.hopeorbits.holder;
 
 public class StoreListHolder {
     String pageID, pageName, currency, details, pageImage, errorMessage, categoryModels;
-    String categoryID,categoryName,error,categoryImage,itemModelSet;
-    String itemID, itemName, itemImage;
+    String categoryID, categoryName, error, categoryImage, itemModelSet;
+    String itemID, itemName, itemImage, quantity, price, size;
+
     public String getPageID() {
         return pageID;
     }
@@ -126,5 +127,29 @@ public class StoreListHolder {
 
     public void setItemImage(String itemImage) {
         this.itemImage = itemImage;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }

@@ -2,6 +2,7 @@
     <string name="app_name">Hop Orbits</string>
     <string name="password">Password</string>
     <string name="phone_number">Phone Number</string>
+    <string name="url">http://13.58.110.101:8080/hoprepositoryweb/</string>
     <string name="hop">Hop</string>
     <string name="forgot_password">Forgot password ?</string>
     <string name="not_yet_registered">Not yet Registered ?</string>
