@@ -16,7 +16,10 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             app:civ_border_color="@color/blue"
-            app:civ_border_width="5dp" />
+            app:civ_border_width="5dp"
+            app:civ_shadow="true"
+            app:civ_shadow_color="#8BC34A"
+            app:civ_shadow_radius="10" />
 
         <TextView
             android:id="@+id/txtname"

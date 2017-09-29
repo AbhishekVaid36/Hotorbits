@@ -38,7 +38,7 @@ public class BucketView extends AppCompatActivity {
         cartlistview = (ListView) findViewById(R.id.cartlistview);
         txtemptylist = (TextView) findViewById(R.id.txtemptylist);
         txtcredit = (TextView) findViewById(R.id.txtcredit);
-        txtcredit.setText("Balance: \u20A8" + Home.amount);
+        txtcredit.setText("Balance: \u20A8" + Container.amount);
         mydb = new DBHelper(BucketView.this);
         Methodexecute();
         if (cartlist.size() > 0) {

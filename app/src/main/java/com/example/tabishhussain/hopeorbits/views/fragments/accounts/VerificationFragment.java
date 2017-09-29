@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.example.tabishhussain.hopeorbits.R;
 import com.example.tabishhussain.hopeorbits.api.HopeOrbitApi;
-import com.example.tabishhussain.hopeorbits.buyer.Home;
+import com.example.tabishhussain.hopeorbits.buyer.Container;
 import com.example.tabishhussain.hopeorbits.views.activities.accounts.SmsListener;
 import com.example.tabishhussain.hopeorbits.views.activities.accounts.SmsReceiver;
 import com.example.tabishhussain.hopeorbits.views.fragments.BaseFragment;
@@ -170,7 +170,7 @@ public class VerificationFragment extends BaseFragment implements View.OnClickLi
                                 editor.putBoolean("Login", true);
                                 editor.commit();
 
-                                Intent in = new Intent(getActivity(), Home.class);
+                                Intent in = new Intent(getActivity(), Container.class);
 //                                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(in);
                                 getActivity().finish();

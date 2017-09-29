@@ -29,6 +29,7 @@ import com.example.tabishhussain.hopeorbits.connectiondetector.ConnectionDetecto
 import com.example.tabishhussain.hopeorbits.connectiondetector.CustomRequest;
 import com.example.tabishhussain.hopeorbits.holder.Holder;
 import com.example.tabishhussain.hopeorbits.views.activities.page.AddPageActivity;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +43,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Tabish Hussain on 7/11/2017.
@@ -178,7 +178,7 @@ public class PageListFragment extends BaseFragment implements View.OnClickListen
 
         class ViewHolder {
             TextView txtname, txtaddress, txtemail;
-            CircleImageView imgshop, imgdummy;
+            CircularImageView imgshop, imgdummy;
         }
 
         @Override
@@ -197,8 +197,8 @@ public class PageListFragment extends BaseFragment implements View.OnClickListen
                 holder.txtname = (TextView) paramView.findViewById(R.id.txtname);
                 holder.txtaddress = (TextView) paramView.findViewById(R.id.txtaddress);
                 holder.txtemail = (TextView) paramView.findViewById(R.id.txtemail);
-                holder.imgshop = (CircleImageView) paramView.findViewById(R.id.imgshop);
-                holder.imgdummy = (CircleImageView) paramView.findViewById(R.id.imgdummy);
+                holder.imgshop = (CircularImageView) paramView.findViewById(R.id.imgshop);
+                holder.imgdummy = (CircularImageView) paramView.findViewById(R.id.imgdummy);
                 paramView.setTag(holder);
             } else {
                 holder = (ViewHolder) paramView.getTag();

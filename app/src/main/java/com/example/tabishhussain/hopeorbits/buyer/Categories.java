@@ -1,11 +1,11 @@
 package com.example.tabishhussain.hopeorbits.buyer;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,31 +27,33 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Categories extends AppCompatActivity implements View.OnClickListener{
+public class Categories extends Fragment implements View.OnClickListener {
     GridView gridview;
-    String categoryModels;
+    JSONArray jsonArray;
     String pageID, pageName, categoryID, categoryName, error, categoryImage, itemModelSet;
     ArrayList<StoreListHolder> list = new ArrayList<StoreListHolder>();
-    TextView txtstorename, txtname, txtcredit, txtemptylist;
-    RelativeLayout rlcart;
+    TextView txtstorename,txtemptylist;
+    Fragment fragment;
+    FragmentTransaction ft;
+    public static JSONArray ItemModelSet;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categories);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        gridview = (GridView) findViewById(R.id.gridview);
-        txtstorename = (TextView) findViewById(R.id.txtstorename);
-        txtcredit = (TextView) findViewById(R.id.txtcredit);
-        txtemptylist = (TextView) findViewById(R.id.txtemptylist);
-        rlcart = (RelativeLayout) findViewById(R.id.rlcart);
-        txtcredit.setText("Balance: \u20A8" + Home.amount);
-        Intent in = getIntent();
-        categoryModels = in.getStringExtra("categoryModels");
-        pageName = in.getStringExtra("pageName");
-        pageID = in.getStringExtra("pageID");
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        View view = inflater.inflate(R.layout.activity_categories, container, false);
+        gridview = (GridView) view.findViewById(R.id.gridview);
+        txtstorename = (TextView) view.findViewById(R.id.txtstorename);
+        txtemptylist = (TextView) view.findViewById(R.id.txtemptylist);
+
+        Bundle bundle = this.getArguments();
+        jsonArray = Home.CategoryListSet;
+        pageName = bundle.getString("pageName");
+        pageID = bundle.getString("pageID");
+
         txtstorename.setText(pageName);
         try {
-            JSONArray jsonArray = new JSONArray(categoryModels);
+//            JSONArray jsonArray = new JSONArray(categoryModels);
             int length = jsonArray.length();
             for (int i = 0; i < length; i++) {
                 JSONObject obj = jsonArray.getJSONObject(i);
@@ -73,22 +75,20 @@ public class Categories extends AppCompatActivity implements View.OnClickListene
             e.printStackTrace();
         }
         if (list.size() > 0) {
-            gridview.setAdapter(new MyCustomAdapter(Categories.this, list));
+            gridview.setAdapter(new MyCustomAdapter(getActivity(), list));
             txtemptylist.setVisibility(View.GONE);
         } else {
             txtemptylist.setVisibility(View.VISIBLE);
         }
-        rlcart.setOnClickListener(this);
+        return view;
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rlcart:
-                Intent in = new Intent(Categories.this, BucketView.class);
-                startActivity(in);
-                break;
         }
     }
+
     class MyCustomAdapter extends BaseAdapter {
 
         LayoutInflater inflater;
@@ -143,7 +143,7 @@ public class Categories extends AppCompatActivity implements View.OnClickListene
                 byte[] decodedString = Base64.decode(h.getCategoryImage(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                 holder.imgcategory.setImageBitmap(decodedByte);
-            }else {
+            } else {
                 holder.imgcategory.setBackgroundResource(R.mipmap.uploadimage);
             }
             holder.rlcategory.setTag(paramInt);
@@ -155,19 +155,29 @@ public class Categories extends AppCompatActivity implements View.OnClickListene
                     // TODO Auto-generated method stub
                     if (!ConnectionDetector.getInstance().isConnectingToInternet()) {
 
-                        Toast.makeText(Categories.this, "Please check your Internet connection", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please check your Internet connection", Toast.LENGTH_SHORT).show();
 
                     } else {
                         int pos1 = (Integer) vv.getTag();
                         StoreListHolder h1 = (StoreListHolder) list.get(pos1);
-                        itemModelSet = h1.getItemModelSet();
-                        Intent in = new Intent(Categories.this, CategoriesItems.class);
-                        in.putExtra("itemModelSet", itemModelSet);
-                        in.putExtra("pageID", pageID);
-                        in.putExtra("pageName", pageName);
-                        in.putExtra("categoryID", h1.getCategoryID());
-                        in.putExtra("categoryName", h1.getCategoryName());
-                        startActivity(in);
+                        try {
+                            ItemModelSet = new JSONArray(h1.getItemModelSet());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Bundle bundle = new Bundle();
+                        bundle.putString("pageID", pageID);
+                        bundle.putString("pageName", pageName);
+                        bundle.putString("categoryID", h1.getCategoryID());
+                        bundle.putString("categoryName", h1.getCategoryName());
+                        fragment = new CategoriesItems();
+                        fragment.setArguments(bundle);
+                        ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        ft.add(R.id.frame, fragment);
+                        ft.addToBackStack("add" + Container.add);
+                        ft.commit();
+                        Container.add++;
+
                     }
                 }
             });

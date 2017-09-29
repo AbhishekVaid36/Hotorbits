@@ -1,13 +1,13 @@
 package com.example.tabishhussain.hopeorbits.buyer;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,38 +30,36 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class CategoriesItems extends AppCompatActivity implements View.OnClickListener {
+public class CategoriesItems extends Fragment implements View.OnClickListener {
     GridView gridview;
-    String itemID, itemName, itemImage, itemModelSet;
+    String itemID, itemName, itemImage;
     ArrayList<StoreListHolder> list = new ArrayList<StoreListHolder>();
-    TextView txtstorename, txtname, txtcredit,txtemptylist;
+    TextView txtstorename,txtemptylist;
     DBHelper mydb;
     String PageId, PageName, CatId, CatName, ItemId, ItemName, Quantity, Size, Price;
-    RelativeLayout rlcart;
-    ImageView imgcart;
+    Fragment fragment;
+    FragmentTransaction ft;
+    JSONArray jsonArray;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categories_items);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        mydb = new DBHelper(CategoriesItems.this);
-        gridview = (GridView) findViewById(R.id.gridview);
-        txtcredit = (TextView) findViewById(R.id.txtcredit);
-        txtemptylist=(TextView)findViewById(R.id.txtemptylist);
-        rlcart = (RelativeLayout) findViewById(R.id.rlcart);
-        imgcart = (ImageView) findViewById(R.id.imgcart);
-        txtcredit.setText("Balance: \u20A8" + Home.amount);
-        txtstorename = (TextView) findViewById(R.id.txtstorename);
-        Intent in = getIntent();
-        itemModelSet = in.getStringExtra("itemModelSet");
-        PageId = in.getStringExtra("pageID");
-        PageName = in.getStringExtra("pageName");
-        CatId = in.getStringExtra("categoryID");
-        CatName = in.getStringExtra("categoryName");
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        View view = inflater.inflate(R.layout.activity_categories_items, container, false);
+        mydb = new DBHelper(getActivity());
+        gridview = (GridView) view.findViewById(R.id.gridview);
+        txtemptylist = (TextView) view.findViewById(R.id.txtemptylist);
+        txtstorename = (TextView) view.findViewById(R.id.txtstorename);
+
+        Bundle bundle = this.getArguments();
+        jsonArray = Categories.ItemModelSet;
+        PageId = bundle.getString("pageID");
+        PageName = bundle.getString("pageName");
+        CatId = bundle.getString("categoryID");
+        CatName = bundle.getString("categoryName");
         txtstorename.setText(CatName);
         try {
-            JSONArray jsonArray = new JSONArray(itemModelSet);
+//            JSONArray jsonArray = new JSONArray(itemModelSet);
             int length = jsonArray.length();
             for (int i = 0; i < length; i++) {
                 JSONObject obj = jsonArray.getJSONObject(i);
@@ -82,23 +79,18 @@ public class CategoriesItems extends AppCompatActivity implements View.OnClickLi
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        rlcart.setOnClickListener(this);
         if (list.size() > 0) {
-            gridview.setAdapter(new MyCustomAdapter(CategoriesItems.this, list));
+            gridview.setAdapter(new MyCustomAdapter(getActivity(), list));
             txtemptylist.setVisibility(View.GONE);
         } else {
             txtemptylist.setVisibility(View.VISIBLE);
         }
-
+        return view;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rlcart:
-                Intent in = new Intent(CategoriesItems.this, BucketView.class);
-                startActivity(in);
-                break;
         }
     }
 
@@ -162,7 +154,7 @@ public class CategoriesItems extends AppCompatActivity implements View.OnClickLi
                 byte[] decodedString = Base64.decode(h.getItemImage(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                 holder.imgitems.setImageBitmap(decodedByte);
-            }else {
+            } else {
                 holder.imgitems.setBackgroundResource(R.mipmap.uploadimage);
             }
             holder.rlitems.setTag(paramInt);
@@ -174,7 +166,7 @@ public class CategoriesItems extends AppCompatActivity implements View.OnClickLi
                     // TODO Auto-generated method stub
                     if (!ConnectionDetector.getInstance().isConnectingToInternet()) {
 
-                        Toast.makeText(CategoriesItems.this, "Please check your Internet connection", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please check your Internet connection", Toast.LENGTH_SHORT).show();
 
                     } else {
 //                        int pos1 = (Integer) vv.getTag();
@@ -183,7 +175,7 @@ public class CategoriesItems extends AppCompatActivity implements View.OnClickLi
 //                        Intent in = new Intent(CategoriesItems.this, Categories.class);
 //                        in.putExtra("categoryModels", categoryModels);
 //                        startActivity(in);
-                        Toast.makeText(CategoriesItems.this, "I'm Working on these phase.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "I'm Working on these phase.", Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -212,7 +204,7 @@ public class CategoriesItems extends AppCompatActivity implements View.OnClickLi
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdia = new ProgressDialog(CategoriesItems.this);
+            pdia = new ProgressDialog(getActivity());
             pdia.setMessage("Please wait..");
             pdia.show();
 

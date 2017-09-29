@@ -19,7 +19,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
         import retrofit2.http.GET;
         import retrofit2.http.POST;
-        import retrofit2.http.Query;
 
 /**
  * Created by Tabish Hussain on 7/10/2017.
@@ -77,8 +76,10 @@ public interface HopeOrbitApi {
     Call<JsonObject> getList();
     @POST("user/createPage")
     Call<JSONObject> createpage(@Body HashMap<String, Object> map);
-    @GET("user/populatePage")
-    Call<JsonObject> getStores(@Query("id") String tags);
-    /*@GET("getAllPages")
-    Call<String> getAllPages();*/
+   /* @GET("user/populatePage")
+    Call<JsonObject> getStores(@Query("id") String tags);*/
+    @GET("getAllPages")
+    Call<JsonObject> getAllPages();
+    @POST("manageOrder")
+    Call<JsonObject> orderPlace(@Body HashMap<String, Object> map);
 }

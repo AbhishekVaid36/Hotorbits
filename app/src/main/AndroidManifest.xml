@@ -16,8 +16,6 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-
-    <!-- <uses-permission-sdk-23 android:name="android.permission.READ_SMS"/> -->
     <application
         android:name=".connectiondetector.ConnectionDetector"
         android:allowBackup="true"
@@ -59,9 +57,11 @@
         <activity
             android:name=".views.activities.MainActivity"
             android:screenOrientation="sensorPortrait" />
-        <activity
+        <!--
+            <activity
             android:name=".buyer.Home"
             android:screenOrientation="sensorPortrait" />
+        -->
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -85,12 +85,11 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-
-        <activity android:name=".buyer.Categories" />
         <activity android:name=".vendor.BusinessPage" />
-        <activity android:name=".buyer.CategoriesItems" />
         <activity android:name=".buyer.BucketView" />
-        <activity android:name=".buyer.BucketViewItems"></activity>
+        <activity android:name=".buyer.BucketViewItems" />
+        <activity android:name=".buyer.Container" />
+        <activity android:name=".buyer.OrderView"></activity>
     </application>
 
 </manifest>

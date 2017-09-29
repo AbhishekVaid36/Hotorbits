@@ -5,9 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -58,95 +56,23 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor getallcartData() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select pageName , pageId from add_cart", null);
+        Cursor res = db.rawQuery("select pageName , pageId from add_cart group by pageId", null);
         return res;
     }
-    public Cursor getallcartItemData() {
+
+    public Cursor getallcartItemData(String pageId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from add_cart", null);
+        Cursor res = db.rawQuery("select * from add_cart where pageId="+ "'" + pageId + "'", null);
         return res;
     }
 
-
-    public boolean add_employee(String F_name, String L_name, String E_mail, String Phone, String Join_date, String Designation, Bitmap Employee_pic, String Emp_Id) {
-        if (Employee_pic != null) {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            Employee_pic.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-            img = bos.toByteArray();
+    public boolean delete(ArrayList<String> selecteditemsId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        for (int i = 0; i < selecteditemsId.size(); i++) {
+            db.delete("add_cart", "productId ='" + selecteditemsId.get(i) + "'", null);
         }
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("F_name", F_name);
-        values.put("L_name", L_name);
-        values.put("E_mail", E_mail);
-        values.put("Phone", Phone);
-        values.put("Designation", Designation);
-        values.put("Join_date", Join_date);
-        values.put("Employee_pic", img);
-        values.put("Employee_id", Emp_Id);
-        db.insert("add_employee", null, values);
-
         return true;
     }
-
-    public boolean insert_in_out_time(String Emp_id, String Time_in, String Time_out, String Date, String Designation) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("emp_id", Emp_id);
-        values.put("time_in", Time_in);
-        values.put("time_out", Time_out);
-        values.put("date", Date);
-        values.put("Designation", Designation);
-        db.insert("employee_attandance", null, values);
-        return true;
-    }
-
-
-    public boolean insert_holidays_list(String date, String name) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("date", date);
-        values.put("name", name);
-
-        c = getholidays();
-        if (c != null) {
-            c.moveToFirst();
-        }
-        if (c.getCount() > 0) {
-            do {
-                t_date = c.getString(c.getColumnIndex("date"));
-                t_name = c.getString(c.getColumnIndex("name"));
-                if ((date.equalsIgnoreCase(t_date) || (name.equalsIgnoreCase(t_name)))) {
-                    contain = true;
-                    break;
-                } else if ((t_date.equalsIgnoreCase("")) && (!t_name.equalsIgnoreCase(""))) {
-                    contain = true;
-                    break;
-                }
-            } while (c.moveToNext());
-
-            if (!contain) {
-                db.insert("holidays_list", null, values);
-            } else {
-                if (!t_date.equalsIgnoreCase("")) {
-                    db.update("holidays_list", values, "date='" + date + "'", null);
-                } else {
-                    db.update("holidays_list", values, "name='" + name + "'", null);
-                }
-
-                contain = false;
-            }
-        } else {
-            db.insert("holidays_list", null, values);
-        }
-
-
-        return true;
-    }
-
 
     public Cursor getallemployeeData() {
         SQLiteDatabase db = this.getReadableDatabase();

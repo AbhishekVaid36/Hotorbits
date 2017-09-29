@@ -36,8 +36,8 @@ public class Splash extends BaseActivity implements View.OnClickListener {
         Login = sharedpreferences.getBoolean("Login", false);
         Id = sharedpreferences.getString("Id", "");
 //        if (Login) {
-//            Intent in = new Intent(Splash.this, Home.class);
-////            Intent in = new Intent(Splash.this, BusinessPage.class);
+//            Intent in = new Intent(Splash.this, Container.class);
+////            Intent in = new Intent(Splash.this, BucketView.class);
 //            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //            startActivity(in);
 //            Splash.this.finish();

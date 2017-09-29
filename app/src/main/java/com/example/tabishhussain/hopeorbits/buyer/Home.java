@@ -2,13 +2,14 @@ package com.example.tabishhussain.hopeorbits.buyer;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -26,7 +27,6 @@ import com.example.tabishhussain.hopeorbits.R;
 import com.example.tabishhussain.hopeorbits.api.HopeOrbitApi;
 import com.example.tabishhussain.hopeorbits.connectiondetector.ConnectionDetector;
 import com.example.tabishhussain.hopeorbits.holder.StoreListHolder;
-import com.example.tabishhussain.hopeorbits.views.activities.BaseActivity;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -35,86 +35,41 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Home extends BaseActivity implements View.OnClickListener{
+public class Home extends Fragment implements View.OnClickListener {
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs";
-    public static int amount;
-    TextView txtname, txtcredit, txtemptylist;
+    TextView txtemptylist;
     String pageModelList, pageID, pageName, currency, details, pageImage, errorMessage, categoryModels;
     String categoryID, categoryName, error, categoryImage, itemModelSet;
     ArrayList<StoreListHolder> list = new ArrayList<StoreListHolder>();
     ListView storelistview;
-    RelativeLayout rlcart;
     AlertDialog.Builder alertDialog;
     AlertDialog mDialog2;
+    //    public static String CategoryListSet;
+    public static JSONArray CategoryListSet;
+    Fragment fragment;
+    FragmentTransaction ft;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        setUpToolbar("Home", false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        View view = inflater.inflate(R.layout.activity_home, container, false);
+
         initpDialog();
-        txtname = (TextView) findViewById(R.id.txtname);
-        txtcredit = (TextView) findViewById(R.id.txtcredit);
-        txtemptylist = (TextView) findViewById(R.id.txtemptylist);
-        rlcart = (RelativeLayout) findViewById(R.id.rlcart);
-        storelistview = (ListView) findViewById(R.id.storelistview);
-        rlcart.setOnClickListener(this);
+        txtemptylist = (TextView) view.findViewById(R.id.txtemptylist);
+        storelistview = (ListView) view.findViewById(R.id.storelistview);
 
-        getBalance();
-//        getStores();
+        getStores();
 //        new GetAllPages().execute();
+        return view;
     }
 
-    public void getBalance() {
-        showpDialog();
-        Call<JsonObject> call = HopeOrbitApi.retrofit.showCredit(getcreditParams());
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccess()) {
-                    try {
-                        JSONObject jsonObj = new JSONObject(response.body().toString());
-
-                        amount = jsonObj.getInt("amount");
-                        txtcredit.setText("Balance: \u20A8" + amount);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                } else {
-                    try {
-                        Log.d("Tag", response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-//                hidepDialog();
-                getStores();
-//                new GetAllPages().execute();
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("Tag", t.toString());
-                hidepDialog();
-            }
-        });
-    }
-
-    public HashMap<String, Object> getcreditParams() {
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("phoneNumber", sharedpreferences.getString("phone", ""));
-        return params;
-    }
 
     public class GetAllPages extends AsyncTask<String, String, String> {
 //        private ProgressDialog pdia;
@@ -165,15 +120,15 @@ public class Home extends BaseActivity implements View.OnClickListener{
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             hidepDialog();
-            storelistview.setAdapter(new MyCustomAdapter(Home.this, list));
+            storelistview.setAdapter(new MyCustomAdapter(getActivity(), list));
         }
 
     }
 
     public void getStores() {
-//        showpDialog();
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Call<JsonObject> call = HopeOrbitApi.retrofit.getStores("245fdc99-8466-4b54-9b4c-21904094b39e");
+        showpDialog();
+        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        Call<JsonObject> call = HopeOrbitApi.retrofit.getAllPages();
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -225,7 +180,7 @@ public class Home extends BaseActivity implements View.OnClickListener{
 //                                }
                             }
                             if (list.size() > 0) {
-                                storelistview.setAdapter(new MyCustomAdapter(Home.this, list));
+                                storelistview.setAdapter(new MyCustomAdapter(getActivity(), list));
                                 txtemptylist.setVisibility(View.GONE);
                             } else {
                                 txtemptylist.setVisibility(View.VISIBLE);
@@ -255,15 +210,14 @@ public class Home extends BaseActivity implements View.OnClickListener{
             }
         });
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rlcart:
-                Intent in = new Intent(Home.this, BucketView.class);
-                startActivity(in);
-                break;
+
         }
     }
+
     class MyCustomAdapter extends BaseAdapter {
 
         LayoutInflater inflater;
@@ -318,8 +272,7 @@ public class Home extends BaseActivity implements View.OnClickListener{
                 byte[] decodedString = Base64.decode(h.getPageImage(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                 holder.imgstore.setImageBitmap(decodedByte);
-            }
-            else {
+            } else {
                 holder.imgstore.setBackgroundResource(R.mipmap.uploadimage);
             }
 
@@ -332,26 +285,43 @@ public class Home extends BaseActivity implements View.OnClickListener{
                     // TODO Auto-generated method stub
                     if (!ConnectionDetector.getInstance().isConnectingToInternet()) {
 
-                        Toast.makeText(Home.this, "Please check your Internet connection", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please check your Internet connection", Toast.LENGTH_SHORT).show();
 
                     } else {
                         int pos1 = (Integer) vv.getTag();
                         StoreListHolder h1 = (StoreListHolder) list.get(pos1);
-                        categoryModels = h1.getCategoryModels();
-                        Intent in = new Intent(Home.this, Categories.class);
-                        in.putExtra("categoryModels", categoryModels);
-                        in.putExtra("pageID", h1.getPageID());
-                        in.putExtra("storename", h1.getPageName());
-                        startActivity(in);
+                        try {
+                            CategoryListSet = new JSONArray(h1.getCategoryModels());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Bundle bundle = new Bundle();
+                        bundle.putString("pageID", h1.getPageID());
+                        bundle.putString("pageName", h1.getPageName());
+                        fragment = new Categories();
+                        fragment.setArguments(bundle);
+                        ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        ft.add(R.id.frame, fragment);
+                        ft.addToBackStack("add" + Container.add);
+                        ft.commit();
+                        Container.add++;
+
+
+//                        Intent in = new Intent(Home.this, Categories.class);
+//                        in.putExtra("categoryModels", categoryModels);
+//                        in.putExtra("pageID", h1.getPageID());
+//                        in.putExtra("pageName", h1.getPageName());
+//                        startActivity(in);
                     }
                 }
             });
             return paramView;
         }
     }
+
     protected void initpDialog() {
-        alertDialog = new AlertDialog.Builder(Home.this);
-        LayoutInflater inflater = getLayoutInflater();
+        alertDialog = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         View convertView = (View) inflater.inflate(R.layout.progress, null);
         alertDialog.setView(convertView);
     }
@@ -359,14 +329,13 @@ public class Home extends BaseActivity implements View.OnClickListener{
     protected void showpDialog() {
         boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
         DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        double x = Math.pow(dm.widthPixels/dm.xdpi,2);
-        double y = Math.pow(dm.heightPixels/dm.ydpi,2);
-        Double screenInches = Math.sqrt(x+y);
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        double x = Math.pow(dm.widthPixels / dm.xdpi, 2);
+        double y = Math.pow(dm.heightPixels / dm.ydpi, 2);
+        Double screenInches = Math.sqrt(x + y);
 
         Integer inch = screenInches.intValue();
-        if(inch >= 5)
-        {
+        if (inch >= 5) {
             if (tabletSize) {
                 mDialog2 = alertDialog.show();
                 mDialog2.getWindow().setLayout(220, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -376,9 +345,7 @@ public class Home extends BaseActivity implements View.OnClickListener{
                 mDialog2.getWindow().setLayout(550, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 mDialog2.setCancelable(false);
             }
-        }
-        else
-        {
+        } else {
             mDialog2 = alertDialog.show();
             mDialog2.getWindow().setLayout(300, RelativeLayout.LayoutParams.WRAP_CONTENT);
             mDialog2.setCancelable(false);
