@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.tabishhussain.hopeorbits.R;
+import com.example.tabishhussain.hopeorbits.buyer.Container;
 import com.example.tabishhussain.hopeorbits.views.activities.BaseActivity;
 
 import java.util.ArrayList;
@@ -35,13 +36,13 @@ public class Splash extends BaseActivity implements View.OnClickListener {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Login = sharedpreferences.getBoolean("Login", false);
         Id = sharedpreferences.getString("Id", "");
-//        if (Login) {
-//            Intent in = new Intent(Splash.this, Container.class);
-////            Intent in = new Intent(Splash.this, BucketView.class);
-//            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(in);
-//            Splash.this.finish();
-//        }
+        if (Login) {
+            Intent in = new Intent(Splash.this, Container.class);
+//            Intent in = new Intent(Splash.this, BucketView.class);
+            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(in);
+            Splash.this.finish();
+        }
         checkAndRequestPermissions();
     }
     private boolean checkAndRequestPermissions() {

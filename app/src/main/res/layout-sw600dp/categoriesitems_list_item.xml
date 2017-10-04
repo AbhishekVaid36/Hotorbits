@@ -29,7 +29,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:singleLine="true"
-            android:text="ABC General"
+            android:text="name"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -39,25 +39,52 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtname"
             android:layout_centerHorizontal="true"
-            android:text="ABC General"
+            android:text="price"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
-        <TextView
-            android:id="@+id/txtquantity"
+        <RelativeLayout
+            android:id="@+id/rlquantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtprice"
-            android:layout_centerHorizontal="true"
-            android:text="ABC General"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="quantity"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+
+            <TextView
+                android:id="@+id/txtquantity"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/quantity"
+                android:background="@drawable/black_straight_border"
+                android:gravity="center"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="2dp"
+                android:text="1"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+
+        </RelativeLayout>
 
         <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txtquantity"
+            android:layout_below="@+id/rlquantity"
             android:layout_centerHorizontal="true"
             android:text="Add to cart"
             android:textColor="@color/black"

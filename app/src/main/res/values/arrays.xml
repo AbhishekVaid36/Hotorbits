@@ -5,4 +5,33 @@
         <item>Food</item>
         <item>House Hold</item>
     </string-array>
+    <string-array name="country_name">
+        <item>India</item>
+        <item>Pakistan</item>
+        <item>United States of America</item>
+    </string-array>
+    <string-array name="country_code">
+        <item>IND</item>
+        <item>PAK</item>
+        <item>USA</item>
+    </string-array>
+    <string-array name="item_quantity">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="options">
+        <item>Update Profile</item>
+        <item>Your Pages</item>
+        <item>Credit Management</item>
+        <item>LogOut</item>
+    </string-array>
+    <string-array name="Currency">
+        <item >Currency</item>
+        <item>USD</item>
+        <item>PKR</item>
+        <item>INR</item>
+    </string-array>
 </resources>

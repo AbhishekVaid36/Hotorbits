@@ -69,7 +69,7 @@ public class RegistrationFragment extends BaseFragment implements View.OnClickLi
         edtcountry.setText("Pakistan");
         edtcode.setText("+92");
         countryCode = "+92";
-        list_designation = new String[]{"India", "Pakistan", "United States of America"};
+        list_designation =getResources().getStringArray(R.array.country_code);
         lpw = new ListPopupWindow(getActivity());
         lpw.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list_designation));
         lpw.setAnchorView(edtcountry);

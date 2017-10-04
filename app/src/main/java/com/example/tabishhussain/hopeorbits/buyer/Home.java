@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -59,72 +58,15 @@ public class Home extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        View view = inflater.inflate(R.layout.activity_home, container, false);
+        View view = inflater.inflate(R.layout.buyer_home, container, false);
 
         initpDialog();
         txtemptylist = (TextView) view.findViewById(R.id.txtemptylist);
         storelistview = (ListView) view.findViewById(R.id.storelistview);
 
         getStores();
-//        new GetAllPages().execute();
         return view;
     }
-
-
-    public class GetAllPages extends AsyncTask<String, String, String> {
-//        private ProgressDialog pdia;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-//            showpDialog();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            JSONParser jParser = new JSONParser();
-            // getting JSON string from URL//fname,lname,email,pwd,pwd2,zipcode,month,day,subscriber      checkuserlogin=1,user_login=emailid,user_pass=password
-            JSONObject json = jParser.getJSONFromUrl(getResources().getString(R.string.url) + "getAllPages");
-            try {
-                JSONArray jsonArray = new JSONArray(json.toString());
-                int length = jsonArray.length();
-
-                for (int i = 0; i < length; i++) {
-                    JSONObject ob = jsonArray.getJSONObject(i);
-                    pageID = ob.getString("pageID");
-                    pageName = ob.getString("pageName");
-                    currency = ob.getString("currency");
-                    details = ob.getString("details");
-                    pageImage = ob.getString("pageImage");
-                    errorMessage = ob.getString("errorMessage");
-                    categoryModels = ob.getString("categoryModels");
-                    StoreListHolder h = new StoreListHolder();
-                    h.setPageID(pageID);
-                    h.setPageName(pageName);
-                    h.setCurrency(currency);
-                    h.setDetails(details);
-                    h.setPageImage(pageImage);
-                    h.setErrorMessage(errorMessage);
-                    h.setCategoryModels(categoryModels);
-                    list.add(h);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            hidepDialog();
-            storelistview.setAdapter(new MyCustomAdapter(getActivity(), list));
-        }
-
-    }
-
     public void getStores() {
         showpDialog();
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);

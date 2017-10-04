@@ -63,7 +63,7 @@ public class AddCategoryFragment extends BaseFragment implements View.OnClickLis
     private void handleEditPhotoClick() {
         Intent galleryIntent = new Intent(
                 Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galleryIntent.setType("image/*");
         String pickTitle = "Select or Take a new picture";
         Intent chooserIntent = Intent.createChooser(galleryIntent, pickTitle);

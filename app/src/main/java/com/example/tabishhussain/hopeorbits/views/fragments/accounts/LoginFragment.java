@@ -70,7 +70,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         edtcode.setInputType(InputType.TYPE_NULL);
         edtcode.setText("PAK");
         countryCode = "+92";
-        list_designation = new String[]{"IND", "PAK", "USA"};
+        list_designation = getResources().getStringArray(R.array.country_code);
         lpw = new ListPopupWindow(getActivity());
         lpw.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list_designation));
         lpw.setAnchorView(edtcode);

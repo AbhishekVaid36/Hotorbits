@@ -12,6 +12,7 @@ public class DBHelper extends SQLiteOpenHelper {
     Cursor c;
     boolean contain = false;
     String t_date, t_name;
+    String itemId, itemQuantity;
 
     public DBHelper(Context context) {
         super(context, "MyDBName.db", null, 1);
@@ -27,6 +28,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 "create table add_cart " +
                         "(id integer primary key, pageId text,pageName text, catId text,catName text, productId text,productName text,quantity text,size text,price text)"
         );
+
+        db.execSQL(
+                "create table add_cartdummy " +
+                        "(id integer primary key, pageId text,pageName text, catId text,catName text, productId text,productName text,quantity text,size text,price text)"
+        );
     }
 
     @Override
@@ -37,6 +43,56 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public boolean addTocart(String PageId, String PageName, String CatId, String CatName, String ItemId, String ItemName, String Quantity, String Size, String Price) {
+        c = getcartItemData(ItemId);
+        int length = c.getCount();
+        if (length > 0) {
+            if (c != null) {
+                c.moveToFirst();
+            }
+            do {
+                try {
+
+                    itemId = c.getString(c.getColumnIndex("productId"));
+                    itemQuantity = c.getString(c.getColumnIndex("quantity"));
+                    int quan = Integer.parseInt(Quantity) + Integer.parseInt(itemQuantity);
+                    SQLiteDatabase db = this.getWritableDatabase();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("quantity", quan);
+                    db.update("add_cart", contentValues, "productId='" + ItemId+"'", null);
+
+                } catch (IndexOutOfBoundsException e) {
+
+                } catch (OutOfMemoryError e) {
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } while (c.moveToNext());
+        } else {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("pageId", PageId);
+            values.put("pageName", PageName);
+            values.put("catId", CatId);
+            values.put("catName", CatName);
+            values.put("productId", ItemId);
+            values.put("productName", ItemName);
+            values.put("quantity", Quantity);
+            values.put("size", Size);
+            values.put("price", Price);
+            db.insert("add_cart", null, values);
+        }
+        return true;
+    }
+
+    public Cursor getcartItemData(String productId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select productId , quantity from add_cart where productId='" + productId + "'", null);
+        return res;
+    }
+
+
+    public boolean addTocartdummy(String PageId, String PageName, String CatId, String CatName, String ItemId, String ItemName, String Quantity, String Size, String Price) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -49,7 +105,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("quantity", Quantity);
         values.put("size", Size);
         values.put("price", Price);
-        db.insert("add_cart", null, values);
+        db.insert("add_cartdummy", null, values);
 
         return true;
     }
@@ -60,9 +116,21 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getallcartDataDummy() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select pageName , pageId from add_cartdummy group by pageId", null);
+        return res;
+    }
+
     public Cursor getallcartItemData(String pageId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from add_cart where pageId="+ "'" + pageId + "'", null);
+        Cursor res = db.rawQuery("select * from add_cart where pageId=" + "'" + pageId + "'", null);
+        return res;
+    }
+
+    public Cursor getallcartItemDataDummy(String pageId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from add_cartdummy where pageId=" + "'" + pageId + "'", null);
         return res;
     }
 
@@ -113,7 +181,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("time_out", Time_out);
-        db.update("employee_attandance", contentValues, "emp_id=" + Employee_id, null);
+        db.update("employee_attandance", contentValues, "emp_id='" + Employee_id+"'", null);
         return true;
     }
 

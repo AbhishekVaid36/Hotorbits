@@ -10,17 +10,20 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.GridView;
+import android.widget.ListPopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tabishhussain.hopeorbits.R;
-import com.example.tabishhussain.hopeorbits.connectiondetector.ConnectionDetector;
 import com.example.tabishhussain.hopeorbits.holder.StoreListHolder;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -32,14 +35,17 @@ import java.util.ArrayList;
 
 public class CategoriesItems extends Fragment implements View.OnClickListener {
     GridView gridview;
-    String itemID, itemName, itemImage;
+    String itemID, itemName, itemImage, itemPrice, itemSize, itemQuantity;
     ArrayList<StoreListHolder> list = new ArrayList<StoreListHolder>();
-    TextView txtstorename,txtemptylist;
+    TextView txtstorename, txtemptylist;
     DBHelper mydb;
     String PageId, PageName, CatId, CatName, ItemId, ItemName, Quantity, Size, Price;
     Fragment fragment;
     FragmentTransaction ft;
     JSONArray jsonArray;
+    RelativeLayout rlfinish;
+    private String[] list_designation;
+    private ListPopupWindow lpw;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +56,8 @@ public class CategoriesItems extends Fragment implements View.OnClickListener {
         gridview = (GridView) view.findViewById(R.id.gridview);
         txtemptylist = (TextView) view.findViewById(R.id.txtemptylist);
         txtstorename = (TextView) view.findViewById(R.id.txtstorename);
-
+        rlfinish = (RelativeLayout) view.findViewById(R.id.rlfinish);
+        rlfinish.setOnClickListener(this);
         Bundle bundle = this.getArguments();
         jsonArray = Categories.ItemModelSet;
         PageId = bundle.getString("pageID");
@@ -66,13 +73,16 @@ public class CategoriesItems extends Fragment implements View.OnClickListener {
                 itemID = obj.getString("itemID");
                 itemName = obj.getString("itemName");
                 itemImage = obj.getString("itemImage");
+                itemPrice = obj.getString("itemPrice");
+                itemSize = obj.getString("itemSize");
+                itemQuantity = obj.getString("itemQuantity");
                 StoreListHolder h = new StoreListHolder();
                 h.setItemID(itemID);
                 h.setItemName(itemName);
                 h.setItemImage(itemImage);
-                h.setQuantity("1");
-                h.setSize("250 ml");
-                h.setPrice("20\u20A8");
+                h.setQuantity(itemQuantity);
+                h.setSize(itemSize);
+                h.setPrice(itemPrice);
                 list.add(h);
 
             }
@@ -91,7 +101,16 @@ public class CategoriesItems extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rlfinish:
+                fragment = new BucketView();
+                ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.add(R.id.frame, fragment);
+                ft.addToBackStack("add" + Container.add);
+                ft.commit();
+                Container.add++;
+                break;
         }
+
     }
 
     class MyCustomAdapter extends BaseAdapter {
@@ -129,7 +148,7 @@ public class CategoriesItems extends Fragment implements View.OnClickListener {
         @Override
         public View getView(final int paramInt, View paramView, ViewGroup paramViewGroup) {
 
-            ViewHolder holder;
+            final ViewHolder holder;
             if (paramView == null) {
                 paramView = inflater.inflate(R.layout.categoriesitems_list_item, paramViewGroup, false);
                 holder = new ViewHolder();
@@ -147,9 +166,9 @@ public class CategoriesItems extends Fragment implements View.OnClickListener {
 
             StoreListHolder h = list.get(paramInt);
             String name = h.getItemName();
-            holder.txtname.setText(name);
-            holder.txtprice.setText("Price: " + h.getPrice());
-            holder.txtquantity.setText("Quantity: " + h.getQuantity());
+            holder.txtname.setText(name + " " + h.getSize());
+            holder.txtprice.setText("Price: " + h.getPrice() + "\u20A8");
+            holder.txtquantity.setText(h.getQuantity());
             if ((!h.getItemImage().equalsIgnoreCase("null")) && (!h.getItemImage().isEmpty())) {
                 byte[] decodedString = Base64.decode(h.getItemImage(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -164,20 +183,20 @@ public class CategoriesItems extends Fragment implements View.OnClickListener {
                 @Override
                 public void onClick(View vv) {
                     // TODO Auto-generated method stub
-                    if (!ConnectionDetector.getInstance().isConnectingToInternet()) {
-
-                        Toast.makeText(getActivity(), "Please check your Internet connection", Toast.LENGTH_SHORT).show();
-
-                    } else {
-//                        int pos1 = (Integer) vv.getTag();
-//                        StoreListHolder h1 = (StoreListHolder) list.get(pos1);
-//                        categoryModels = h1.getCategoryModels();
-//                        Intent in = new Intent(CategoriesItems.this, Categories.class);
-//                        in.putExtra("categoryModels", categoryModels);
-//                        startActivity(in);
-                        Toast.makeText(getActivity(), "I'm Working on these phase.", Toast.LENGTH_SHORT).show();
-
-                    }
+//                    if (!ConnectionDetector.getInstance().isConnectingToInternet()) {
+//
+//                        Toast.makeText(getActivity(), "Please check your Internet connection", Toast.LENGTH_SHORT).show();
+//
+//                    } else {
+////                        int pos1 = (Integer) vv.getTag();
+////                        StoreListHolder h1 = (StoreListHolder) list.get(pos1);
+////                        categoryModels = h1.getCategoryModels();
+////                        Intent in = new Intent(CategoriesItems.this, Categories.class);
+////                        in.putExtra("categoryModels", categoryModels);
+////                        startActivity(in);
+//                        Toast.makeText(getActivity(), "I'm Working on these phase.", Toast.LENGTH_SHORT).show();
+//
+//                    }
                 }
             });
             holder.checkbox.setTag(paramInt);
@@ -188,10 +207,31 @@ public class CategoriesItems extends Fragment implements View.OnClickListener {
                     StoreListHolder h1 = (StoreListHolder) list.get(pos1);
                     ItemId = h1.getItemID();
                     ItemName = h1.getItemName();
-                    Quantity = h1.getQuantity();
+                    Quantity =  holder.txtquantity.getText().toString();
                     Size = h1.getSize();
                     Price = h1.getPrice();
                     new AddToCart().execute();
+                }
+            });
+            holder.txtquantity.setTag(paramInt);
+            holder.txtquantity.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    list_designation = getResources().getStringArray(R.array.item_quantity);
+                    lpw = new ListPopupWindow(getActivity());
+                    lpw.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list_designation));
+                    lpw.setAnchorView(holder.txtquantity);
+                    lpw.setModal(true);
+                    lpw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String item = list_designation[position];
+                            holder.txtquantity.setText(item);
+                            lpw.dismiss();
+                        }
+                    });
+                    lpw.show();
+                    return false;
                 }
             });
             return paramView;
@@ -204,9 +244,9 @@ public class CategoriesItems extends Fragment implements View.OnClickListener {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdia = new ProgressDialog(getActivity());
-            pdia.setMessage("Please wait..");
-            pdia.show();
+//            pdia = new ProgressDialog(getActivity());
+//            pdia.setMessage("Please wait..");
+//            pdia.show();
 
         }
 
@@ -219,7 +259,8 @@ public class CategoriesItems extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            pdia.dismiss();
+//            pdia.dismiss();
+            Toast.makeText(getActivity(), "Item added in cart", Toast.LENGTH_LONG).show();
         }
     }
 

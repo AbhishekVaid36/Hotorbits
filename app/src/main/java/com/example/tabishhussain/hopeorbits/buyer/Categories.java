@@ -184,5 +184,8 @@ public class Categories extends Fragment implements View.OnClickListener {
             return paramView;
         }
     }
-
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }

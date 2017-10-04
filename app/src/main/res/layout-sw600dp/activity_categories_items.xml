@@ -28,8 +28,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_above="@+id/rlsubmit"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rlfinish"
         android:layout_below="@+id/rlheader"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
@@ -57,7 +57,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rlsubmit"
+        android:id="@+id/rlfinish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

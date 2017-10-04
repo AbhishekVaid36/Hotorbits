@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/add_search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="25dp"
+                android:layout_weight="2"
+                android:backgroundTint="@android:color/white"
+                android:hint="Enter Place"
+                android:inputType="textPersonName"
+                android:shadowColor="@color/blue"
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
+
+            <Button
+                android:id="@+id/mapgo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:text="Go"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/googleMap"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/skipbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:text="SKIP"
+        android:textColor="@color/white" />
+</RelativeLayout>
