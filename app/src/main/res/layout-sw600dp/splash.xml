@@ -17,79 +17,77 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/black_straight_border">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
 
                 <ImageView
+                    android:id="@+id/img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="5dp"
-                    android:background="@mipmap/finallogo"/>
+                    android:background="@mipmap/logo" />
 
             </RelativeLayout>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="20dp"
-                android:text="Already a user?"
+                android:layout_margin="20dp"
+                android:gravity="center_horizontal"
+                android:text="@string/loremtext"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <RelativeLayout
                 android:id="@+id/rllogin"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/black_straight_border"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="40dp"
+                android:background="@color/secondbuttoncolor"
                 android:padding="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Log In"
-                    android:textColor="@color/black"
+                    android:text="LOGIN"
+                    android:textColor="@color/white"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="50dp"
-                android:text="New user?"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
 
             <RelativeLayout
                 android:id="@+id/rlsignup"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/black_straight_border"
+                android:layout_margin="20dp"
+                android:background="@color/buttoncolor"
                 android:padding="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Sign Up"
-                    android:textColor="@color/black"
+                    android:text="REGISTER"
+                    android:textColor="@color/white"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="373dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/bottomlogo" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

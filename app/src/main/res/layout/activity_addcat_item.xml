@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="com.example.tabishhussain.hopeorbits.views.activities.page.AddItemPage">
+    tools:context="co.hopeorbits.views.activities.page.AddItemPage">
 
 
     <View
@@ -127,7 +127,8 @@
                         android:id="@+id/item_prize"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2" />
+                        android:layout_weight="2"
+                        android:inputType="number"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -147,7 +148,8 @@
                         android:id="@+id/item_Quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2" />
+                        android:layout_weight="2"
+                        android:inputType="number"/>
                 </LinearLayout>
 
                 <Button

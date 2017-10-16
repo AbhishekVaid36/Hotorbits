@@ -3,6 +3,7 @@
     <string name="password">Password</string>
     <string name="phone_number">Phone Number</string>
     <string name="url">http://13.58.110.101:8080/hoprepositoryweb/</string>
+    <string name="googleapi_key">AIzaSyAhrmFCMP6GBofFtMrNiX5dwmHS1fH2g3g</string>
     <string name="hop">Hop</string>
     <string name="forgot_password">Forgot password ?</string>
     <string name="not_yet_registered">Not yet Registered ?</string>
@@ -27,4 +28,5 @@
     <string name="transfer_credit">Transfer Credit</string>
     <string name="last_name">Last Name</string>
     <string name="email_address">Email Address</string>
+    <string name="loremtext">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s. </string>
 </resources>

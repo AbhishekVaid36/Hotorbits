@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -14,20 +15,38 @@
             android:id="@+id/imgstore"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-           android:layout_margin="5dp"/>
+            android:layout_margin="10dp"/>
 
         <TextView
             android:id="@+id/txtstorename"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:layout_toLeftOf="@+id/imgstore"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/imgstore"
+            android:maxLines="1"
             android:text="ABC General Store,Street 1 Mumbai"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"/>
+            android:textColor="@color/buttoncolor"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtsortdesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtstorename"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/imgstore"
+            android:maxLines="2"
+            android:text="ABC General Store,Street 1 Mumbai"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="normal" />
+
     </RelativeLayout>
+
 </LinearLayout>

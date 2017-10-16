@@ -8,17 +8,36 @@
         android:id="@+id/rlcart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/black_straight_border">
+        android:background="@drawable/listitemborder">
 
         <TextView
             android:id="@+id/txtcartname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_margin="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/view"
+            android:padding="10dp"
             android:text="ABC General Store,Street 1 Mumbai"
             android:textColor="@color/black"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textSize="20dp" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_toLeftOf="@+id/txtstatus"
+            android:background="@color/brown" />
+
+        <TextView
+            android:id="@+id/txtstatus"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="Pending"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
     </RelativeLayout>
 </LinearLayout>

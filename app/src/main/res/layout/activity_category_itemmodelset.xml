@@ -10,8 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tabbot"
-        android:layout_margin="10dp"
+        android:layout_above="@+id/catitemmodeltabbot"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:background="@color/brown">
 
         <RelativeLayout
@@ -42,22 +43,25 @@
                     <TextView
                         android:id="@+id/pagename"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="2"
                         android:gravity="center"
+                        android:padding="5dp"
                         android:text="Cat Item Model list"
                         android:textColor="@color/blue"
-                        android:textSize="20dp"
+                        android:textSize="15dp"
                         android:textStyle="bold|italic" />
 
                     <TextView
                         android:id="@+id/catitemmodeleditbtn"
                         android:layout_width="70dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="Edit"
+                        android:padding="5dp"
+                        android:textSize="15dp"
                         android:textColor="@color/blue"
                         android:textStyle="bold|italic" />
 
@@ -71,10 +75,11 @@
                     android:layout_below="@+id/rl1"
                     android:background="#cccc" />
 
-                <android.support.v7.widget.RecyclerView
+                <ListView
                     android:id="@+id/catitemmodelcategoryrecycler"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:dividerHeight="0dp"></ListView>
 
             </LinearLayout>
         </RelativeLayout>
@@ -85,10 +90,8 @@
         android:id="@+id/catitemmodeltabbot"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/catitemmodeladdcat"

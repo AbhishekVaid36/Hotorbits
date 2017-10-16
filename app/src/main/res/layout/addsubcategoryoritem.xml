@@ -8,8 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tabbot"
-        android:layout_margin="10dp"
+        android:layout_above="@+id/catoriten"
         android:background="@color/brown">
 
         <RelativeLayout
@@ -46,7 +45,7 @@
                         android:gravity="center"
                         android:text="TextView"
                         android:textColor="@color/blue"
-                        android:textSize="20dp"
+                        android:textSize="15dp"
                         android:textStyle="bold|italic" />
 
                     <TextView
@@ -70,7 +69,7 @@
                     android:background="#cccc" />
 
 
-                <android.support.v7.widget.RecyclerView
+                <ListView
                     android:id="@+id/categoryintocatlistinitem"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />

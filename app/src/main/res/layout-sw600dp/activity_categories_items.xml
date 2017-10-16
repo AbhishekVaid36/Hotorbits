@@ -10,7 +10,6 @@
         android:id="@+id/rlheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
@@ -18,10 +17,10 @@
             android:id="@+id/txtstorename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
             android:padding="10dp"
             android:text=""
-            android:textColor="@color/black"
+            android:textColor="@color/buttoncolor"
             android:textSize="25dp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -33,27 +32,26 @@
         android:layout_below="@+id/rlheader"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/black_straight_border">
+        android:layout_marginRight="10dp">
 
-        <GridView
+        <ListView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:horizontalSpacing="30dp"
-            android:numColumns="3"
-            android:padding="5dp"
-            android:verticalSpacing="20dp" />
+            android:divider="@color/white"
+            android:dividerHeight="5dp"
+            android:padding="5dp" />
+
         <TextView
             android:id="@+id/txtemptylist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Not any items in this category yet"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textSize="25dp"
+            android:text="Not any items in this category yet"
             android:textColor="@color/black"
-            android:visibility="gone"/>
+            android:textSize="25dp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -61,8 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="5dp"
-        android:background="@color/blue">
+        android:layout_margin="10dp"
+        android:background="@color/buttoncolor">
 
         <TextView
             android:id="@+id/txtshoping"

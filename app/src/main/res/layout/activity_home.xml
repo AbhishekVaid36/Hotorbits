@@ -118,6 +118,15 @@
                     android:textColorHint="@color/blue">
                 </EditText>
             </LinearLayout>
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/uploadimage"
+                app:civ_border_color="@color/blue"
+                app:civ_border_width="2dp" />
 
             <Button
                 android:id="@+id/go"
@@ -132,6 +141,7 @@
                 android:padding="10dp"
                 android:text="Go"
                 android:textColor="@color/white" />
+
         </LinearLayout>
     </ScrollView>
 

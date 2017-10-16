@@ -5,69 +5,21 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/rlbucket"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rlfooter"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
 
         <ListView
-            android:id="@+id/bucketview"
+            android:id="@+id/orderview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="5dp"></ListView>
+            android:dividerHeight="0dp"></ListView>
 
     </RelativeLayout>
 
-    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/rlfooter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="10dp">
-
-        <TextView
-            android:id="@+id/txtcancel"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/txtremove"
-            android:background="@drawable/black_straight_border"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:text="Cancel"
-            android:textColor="@color/black"
-            android:textSize="25dp"
-            app:layout_widthPercent="35%" />
-
-        <TextView
-            android:id="@+id/txtremove"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/black_straight_border"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:text="Remove"
-            android:textColor="@color/black"
-            android:textSize="25dp"
-            app:layout_widthPercent="35%" />
-
-        <TextView
-            android:id="@+id/txtorder"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/txtremove"
-            android:background="@drawable/black_straight_border"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:text="Order"
-            android:textColor="@color/black"
-            android:textSize="25dp"
-            app:layout_widthPercent="35%" />
-
-
-    </android.support.percent.PercentRelativeLayout>
 
 </RelativeLayout>

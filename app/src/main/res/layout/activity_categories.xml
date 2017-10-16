@@ -15,10 +15,10 @@
             android:id="@+id/txtstorename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:padding="10dp"
+           android:layout_alignParentLeft="true"
+            android:padding="5dp"
             android:text=""
-            android:textColor="@color/black"
+            android:textColor="@color/buttoncolor"
             android:textSize="20dp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -26,19 +26,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/black_straight_border">
+        android:layout_marginBottom="5dp">
 
         <GridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:horizontalSpacing="30dp"
-            android:numColumns="3"
+            android:horizontalSpacing="20dp"
+            android:numColumns="2"
             android:verticalSpacing="20dp"
-            android:padding="3dp"/>
+            android:padding="5dp"/>
         <TextView
             android:id="@+id/txtemptylist"
             android:layout_width="wrap_content"

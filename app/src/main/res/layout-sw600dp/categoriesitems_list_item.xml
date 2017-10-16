@@ -8,87 +8,103 @@
     <RelativeLayout
         android:id="@+id/rlitems"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/black_straight_border">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <ImageView
             android:id="@+id/imgitems"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            app:civ_border_color="@color/blue"
-            app:civ_border_width="5dp"
-            app:civ_shadow="true"
-            app:civ_shadow_color="#8BC34A"
-            app:civ_shadow_radius="10" />
-
-        <TextView
-            android:id="@+id/txtname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imgitems"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:singleLine="true"
-            android:text="name"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/txtprice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtname"
-            android:layout_centerHorizontal="true"
-            android:text="price"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:layout_margin="10dp" />
 
         <RelativeLayout
-            android:id="@+id/rlquantity"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txtprice"
-            android:layout_centerHorizontal="true">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@+id/imgitems">
 
             <TextView
-                android:id="@+id/quantity"
+                android:id="@+id/txtname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="quantity"
-                android:textColor="@color/black"
+                android:singleLine="true"
+                android:text="Name"
+                android:textColor="@color/buttoncolor"
                 android:textSize="20dp" />
-
 
             <TextView
-                android:id="@+id/txtquantity"
-                android:layout_width="50dp"
+                android:id="@+id/txtsize"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/quantity"
-                android:background="@drawable/black_straight_border"
-                android:gravity="center"
-                android:paddingBottom="2dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="2dp"
-                android:text="1"
+                android:layout_alignBaseline="@+id/txtname"
+                android:layout_alignParentRight="true"
+                android:singleLine="true"
+                android:text="Size"
                 android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:textSize="18dp" />
 
+            <TextView
+                android:id="@+id/txtprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtname"
+                android:text="price"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <RelativeLayout
+                android:id="@+id/rlquantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtprice">
+
+                <TextView
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="quantity"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <RelativeLayout
+                    android:id="@+id/rlquanborder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/quantity"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/black_straight_border">
+
+                    <TextView
+                        android:id="@+id/txtquantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp"
+                        android:text="1"
+                        android:textColor="@color/buttoncolor"
+                        android:textSize="18dp" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/txtaddtocart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/quantity"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/buttoncolor"
+                    android:padding="6dp"
+                    android:text="Add to cart"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
-
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rlquantity"
-            android:layout_centerHorizontal="true"
-            android:text="Add to cart"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
     </RelativeLayout>
 
 </LinearLayout>

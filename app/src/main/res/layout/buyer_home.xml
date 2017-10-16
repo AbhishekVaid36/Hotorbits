@@ -11,14 +11,16 @@
         android:id="@+id/rlfirst"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
 
         <ListView
             android:id="@+id/storelistview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="5dp"></ListView>
+            android:dividerHeight="10dp"
+            android:divider="@color/white"
+            android:layout_marginBottom="5dp"></ListView>
         <TextView
             android:id="@+id/txtemptylist"
             android:layout_width="wrap_content"

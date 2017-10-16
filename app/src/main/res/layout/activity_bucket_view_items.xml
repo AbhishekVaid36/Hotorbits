@@ -5,21 +5,116 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="false">
+
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+            <TextView
+                android:id="@+id/txttitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/txtbill"
+                android:padding="5dp"
+                android:text="Your Bucket View Name"
+                android:textColor="@color/buttoncolor"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/txtbill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:text="Bill:         "
+                android:textColor="@color/black"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+
+            android:background="@color/buttoncolor">
+
+            <TextView
+                android:id="@+id/txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/txtedit"
+                android:padding="5dp"
+                android:text="Status: Pending"
+                android:textColor="@color/white"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/txtedit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:text="EDIT"
+                android:textColor="@color/white"
+                android:textSize="15dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rlbucket"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rlfooter"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_above="@+id/txtdummy"
+        android:layout_below="@+id/header"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp">
 
         <ListView
             android:id="@+id/bucketview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="5dp"></ListView>
+            android:dividerHeight="0dp"></ListView>
+
+        <TextView
+            android:id="@+id/txtemptylist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Cart is empty"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:visibility="gone" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtdummy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        android:textSize="15dp" />
 
     <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,47 +122,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp">
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp">
 
         <TextView
             android:id="@+id/txtcancel"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/txtremove"
-            android:background="@drawable/black_straight_border"
+            android:background="@color/black"
             android:gravity="center_horizontal"
             android:padding="10dp"
             android:text="Cancel"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="15dp"
-            app:layout_widthPercent="35%" />
+            app:layout_widthPercent="49%" />
 
         <TextView
             android:id="@+id/txtremove"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/black_straight_border"
+            android:layout_alignParentRight="true"
+            android:background="@color/buttoncolor"
             android:gravity="center_horizontal"
             android:padding="10dp"
             android:text="Remove"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="15dp"
-            app:layout_widthPercent="35%" />
-
-        <TextView
-            android:id="@+id/txtorder"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/txtremove"
-            android:background="@drawable/black_straight_border"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:text="Order"
-            android:textColor="@color/black"
-            android:textSize="15dp"
-            app:layout_widthPercent="35%" />
-
-
+            app:layout_widthPercent="49%" />
     </android.support.percent.PercentRelativeLayout>
+
+    <TextView
+        android:id="@+id/txtorder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:background="@color/buttoncolor"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Order"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:visibility="gone" />
+
 
 </RelativeLayout>

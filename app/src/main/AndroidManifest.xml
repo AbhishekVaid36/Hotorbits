@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tabishhussain.hopeorbits">
+    package="co.hopeorbits">
 
     <permission
         android:name="com.javapapers.currentlocationinmap.permission.MAPS_RECEIVE"
@@ -76,34 +76,31 @@
              android:name="io.fabric.ApiKey"
              android:value="52bb7706ea404a02398cb7087de74f162be74b61" />-->
 
-        <activity
-            android:name=".buyer.BuyerLogin"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".buyer.BuyerRegister"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-
         <receiver android:name=".views.activities.accounts.SmsReceiver">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <activity android:name=".vendor.BusinessPage" />
 
         //=============dipen code
 
+
+        <!--<meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDkl3IOSlUbSMUz0w4VenuBJuQSwFLTo_o" />-->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="52bb7706ea404a02398cb7087de74f162be74b61" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDkl3IOSlUbSMUz0w4VenuBJuQSwFLTo_o" />
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="52bb7706ea404a02398cb7087de74f162be74b61" />
-
-        <activity android:name=".views.activities.accounts.WelCome" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/googleapi_key" />
 
         <!--<activity android:name=".views.activities.page.AddItemPage" />-->
 
