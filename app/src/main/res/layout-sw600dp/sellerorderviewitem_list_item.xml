@@ -26,15 +26,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true">
 
-                <com.mikhaellopez.circularimageview.CircularImageView
+                <ImageView
                     android:id="@+id/imgshop"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    app:civ_border_color="@color/blue"
-                    app:civ_border_width="3dp" />
+                    android:layout_marginLeft="20dp" />
 
 
             </RelativeLayout>
@@ -45,7 +43,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:layout_toLeftOf="@+id/rlcheck"
                 android:layout_toRightOf="@+id/rlimage">
 
                 <TextView
@@ -54,14 +51,16 @@
                     android:layout_height="wrap_content"
                     android:singleLine="false"
                     android:text="name"
-                    android:textColor="@color/black"
+                    android:textColor="@color/buttoncolor"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/txtsize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtname"
+                    android:layout_alignBottom="@+id/txtname"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
                     android:text="size"
                     android:textColor="@color/black"
                     android:textSize="20dp" />
@@ -73,7 +72,16 @@
                     android:layout_below="@+id/txtsize"
                     android:text="price"
                     android:textColor="@color/black"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:layout_marginTop="5dp"/>
+
+                <CheckBox
+                    android:id="@+id/checkforremove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/txtprice"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp" />
 
                 <RelativeLayout
                     android:id="@+id/rlquantity"
@@ -95,39 +103,33 @@
                         android:id="@+id/txtquantity"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/quantity"
-                        android:background="@drawable/black_straight_border"
-                        android:gravity="center"
-                        android:paddingBottom="2dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="2dp"
                         android:text="1"
-                        android:textColor="@color/black"
+                        android:textColor="@color/buttoncolor"
                         android:textSize="20dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/sp"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/sp_reason"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:dropDownVerticalOffset="30dp"/>
+                    </LinearLayout>
 
 
                 </RelativeLayout>
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/rlcheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp">
-
-                <CheckBox
-                    android:id="@+id/checkforremove"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

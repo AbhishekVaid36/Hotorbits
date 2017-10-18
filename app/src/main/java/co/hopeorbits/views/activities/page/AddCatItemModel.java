@@ -1,6 +1,7 @@
 package co.hopeorbits.views.activities.page;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,9 +25,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -72,9 +75,9 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
     public static final String MyPREFERENCES = "MyPrefs";
     String Ids;
     String categoryid;
-    EditText cat_item_name,cat_item_size,item_prize,item_Quantity;
+    EditText cat_item_name, cat_item_size, item_prize, item_Quantity;
     ImageView Add_item_image;
-    Button item_save_cat;
+    TextView txtsave;
     String base64 = "";
 
     PageModelListCatItem pageModelList;
@@ -83,27 +86,34 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
 
     ArrayList<PageModelListCatItem> pageModelListCatItems = new ArrayList<>();
     ArrayList<CategoryModelsCatItem> categoryModelsCatItems = new ArrayList<>();
-    ArrayList<ItemModelSetCatItems>  itemModelSetCatItemses = new ArrayList<>();
+    ArrayList<ItemModelSetCatItems> itemModelSetCatItemses = new ArrayList<>();
     public static final int RESULT_OK = -1;
     Fragment fragment;
     FragmentTransaction ft;
-    private String selectedPhoto,photoName;
+    private String selectedPhoto, photoName;
     private final static int REQUEST_PERMISSION_REQ_CODE = 34;
     private static final int CAMERA_CODE = 101, GALLERY_CODE = 201, CROPING_CODE = 301;
+    RelativeLayout rlpic;
+    ScrollView scroll;
+    AlertDialog.Builder alertDialog;
+    AlertDialog mDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         View view = inflater.inflate(R.layout.activity_addcat_item, container, false);
 
-        cat_item_name = (EditText)view.findViewById(R.id.cat_item_name);
-        cat_item_size = (EditText)view.findViewById(R.id.cat_item_size);
-        item_prize = (EditText)view.findViewById(R.id.item_prize);
-        item_Quantity = (EditText)view.findViewById(R.id.item_Quantity);
-        Add_item_image = (ImageView)view.findViewById(R.id.Add_item_image);
-        item_save_cat = (Button)view.findViewById(R.id.item_save_cat);
-        Add_item_image.setOnClickListener(this);
-        item_save_cat.setOnClickListener(this);
+        cat_item_name = (EditText) view.findViewById(R.id.cat_item_name);
+        cat_item_size = (EditText) view.findViewById(R.id.cat_item_size);
+        item_prize = (EditText) view.findViewById(R.id.item_prize);
+        item_Quantity = (EditText) view.findViewById(R.id.item_Quantity);
+        Add_item_image = (ImageView) view.findViewById(R.id.Add_item_image);
+        txtsave = (TextView) view.findViewById(R.id.txtsave);
+        rlpic = (RelativeLayout) view.findViewById(R.id.rlpic);
+        scroll = (ScrollView) view.findViewById(R.id.scroll);
+        rlpic.setOnClickListener(this);
+        txtsave.setOnClickListener(this);
+        scroll.setOnClickListener(this);
 
         itemModelSet = new ItemModelSetCatItems();
         categoryModels = new CategoryModelsCatItem();
@@ -119,8 +129,8 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.Add_item_image:
+        switch (view.getId()) {
+            case R.id.rlpic:
 //                Intent intent = new Intent();
 //                intent.setType("image/*");
 //                intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -128,11 +138,14 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, GALLERY_CODE);
                 break;
-            case R.id.item_save_cat:
+            case R.id.txtsave:
                 PostingdatacatItem();
+                break;
+            case R.id.scroll:
                 break;
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -161,13 +174,16 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
         if (TextUtils.isEmpty(cat_item_name.getText().toString())) {
             cat_item_name.setError("Please provide item name");
             return false;
-        }if (TextUtils.isEmpty(cat_item_size.getText().toString())) {
+        }
+        if (TextUtils.isEmpty(cat_item_size.getText().toString())) {
             cat_item_size.setError("Please provide item size");
             return false;
-        }if (TextUtils.isEmpty(item_prize.getText().toString())) {
+        }
+        if (TextUtils.isEmpty(item_prize.getText().toString())) {
             item_prize.setError("Please provide item prize");
             return false;
-        }if (TextUtils.isEmpty(item_Quantity.getText().toString())) {
+        }
+        if (TextUtils.isEmpty(item_Quantity.getText().toString())) {
             item_Quantity.setError("Please provide item quantity");
             return false;
         }
@@ -193,12 +209,12 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
             categoryModels.setCategoryID(categoryid);
             categoryModels.setItemModelSet(itemModelSetCatItemses);
             categoryModelsCatItems.add(categoryModels);
-            pageModelList.setPageID(common.getPreferenceString(getActivity(),"PAGEID",""));
+            pageModelList.setPageID(common.getPreferenceString(getActivity(), "PAGEID", ""));
             pageModelList.setCategoryModels(categoryModelsCatItems);
             pageModelListCatItems.add(pageModelList);
 
             JSONArray array = new JSONArray(pageModelListCatItems);
-            Log.d("myjsonArray",array.toString());
+            Log.d("myjsonArray", array.toString());
 
             final ProgressDialog dialog = new ProgressDialog(getActivity());
             dialog.show();
@@ -207,9 +223,9 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     try {
-                        if(response.isSuccess()){
+                        if (response.isSuccess()) {
                             JSONObject object = new JSONObject(response.body().toString());
-                            Log.d("myitemdata",object.toString());
+                            Log.d("myitemdata", object.toString());
                             dialog.dismiss();
 //                            Intent i =   new Intent(AddCatItemModel.this,Yourpage.class);
 //                            startActivity(i);
@@ -224,7 +240,7 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
                             ft.addToBackStack("add" + Container.add);
                             ft.commit();
                             Container.add++;
-                        }else {
+                        } else {
 
                         }
 
@@ -245,7 +261,7 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
     public HashMap<String, Object> childcategory() {
         HashMap<String, Object> params = new HashMap<>();
         params.put("userId", Ids);
-        params.put("pageModelList",pageModelListCatItems );
+        params.put("pageModelList", pageModelListCatItems);
         return params;
     }
 
@@ -281,6 +297,7 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
                 base64 = getEncoded64ImageStringFromBitmap(bitmap);
                 //Setting the Bitmap to ImageView
+                Add_item_image.setVisibility(View.VISIBLE);
                 Add_item_image.setImageBitmap(bitmap);
                 new ImageProgress().execute();
 
@@ -289,13 +306,17 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
             }
         }
     }
+
     public class ImageProgress extends AsyncTask<String, String, String> {
-//        private ProgressDialog pdia;
+        private ProgressDialog pdia;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            showpDialog();
+            pdia = new ProgressDialog(getActivity());
+            pdia.setMessage("Uploading...");
+            pdia.show();
+            pdia.setCancelable(false);
         }
 
         @Override
@@ -348,6 +369,8 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            pdia.dismiss();
+            pdia = null;
 //            Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
         }
 
@@ -362,4 +385,5 @@ public class AddCatItemModel extends Fragment implements View.OnClickListener {
         System.out.println(imgString);
         return imgString;
     }
+
 }

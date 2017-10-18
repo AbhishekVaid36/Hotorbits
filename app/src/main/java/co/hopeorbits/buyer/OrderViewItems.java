@@ -42,20 +42,20 @@ public class OrderViewItems extends Fragment implements View.OnClickListener {
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs";
     String UserId;
+    TextView txtname;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         View view = inflater.inflate(R.layout.activity_order_view_items, container, false);
-        orderlistview = (ListView) view.findViewById(R.id.orderview);
-//        txtcancel = (TextView) view.findViewById(R.id.txtcancel);
-//        txtremove = (TextView) view.findViewById(R.id.txtremove);
-//        txtorder = (TextView) view.findViewById(R.id.txtorder);
+        orderlistview = (ListView) view.findViewById(R.id.orderlistview);
+        txtname=(TextView)view.findViewById(R.id.txtname);
         Bundle bundle = this.getArguments();
         pageName = bundle.getString("pageName");
         pageId = bundle.getString("pageId");
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         UserId = sharedpreferences.getString("Id", "");
+        txtname.setText(pageName);
         getOrderByPageId();
 
 //        txtcancel.setOnClickListener(this);
@@ -169,7 +169,7 @@ public class OrderViewItems extends Fragment implements View.OnClickListener {
 
         class ViewHolder {
             TextView txtname, txtsize, txtquantity, txtprice;
-            CheckBox checkfororder, checkforremove;
+            CheckBox checkforremove;
             CircularImageView imgshop;
         }
 
@@ -184,7 +184,6 @@ public class OrderViewItems extends Fragment implements View.OnClickListener {
                 holder.txtsize = (TextView) convertView.findViewById(R.id.txtsize);
                 holder.txtquantity = (TextView) convertView.findViewById(R.id.txtquantity);
                 holder.txtprice = (TextView) convertView.findViewById(R.id.txtprice);
-                holder.checkfororder = (CheckBox) convertView.findViewById(R.id.checkfororder);
                 holder.checkforremove = (CheckBox) convertView.findViewById(R.id.checkforremove);
                 holder.imgshop = (CircularImageView) convertView.findViewById(R.id.imgshop);
                 convertView.setTag(holder);
@@ -199,7 +198,6 @@ public class OrderViewItems extends Fragment implements View.OnClickListener {
             holder.txtprice.setText("Price: " + h.getPrice() + "\u20A8");
             if (!flag) {
                 holder.checkforremove.setChecked(false);
-                holder.checkfororder.setChecked(false);
             }
 
             holder.checkforremove.setTag(position);
@@ -215,6 +213,7 @@ public class OrderViewItems extends Fragment implements View.OnClickListener {
                     }
                 }
             });
+            holder.imgshop.setBackgroundResource(R.mipmap.product);
             return convertView;
         }
     }

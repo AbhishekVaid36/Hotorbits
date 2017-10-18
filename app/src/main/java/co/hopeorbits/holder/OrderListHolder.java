@@ -5,7 +5,7 @@ package co.hopeorbits.holder;
  */
 
 public class OrderListHolder {
-    String orderId,pageId,pageName,itemId,itemName,address,quantity,orderStatus,price,size,creditInfo;
+    String orderId,pageId,pageName,itemId,itemName,Date,address,quantity,orderStatus,price,size,creditInfo;
 
     public String getOrderId() {
         return orderId;
@@ -93,5 +93,13 @@ public class OrderListHolder {
 
     public void setCreditInfo(String creditInfo) {
         this.creditInfo = creditInfo;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
     }
 }

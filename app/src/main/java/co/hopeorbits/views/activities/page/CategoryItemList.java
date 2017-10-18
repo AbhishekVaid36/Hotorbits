@@ -14,12 +14,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -53,7 +54,9 @@ public class CategoryItemList extends Fragment implements View.OnClickListener {
     TextView pagename;
     JSONArray jsonArray;
     String itemID, itemName, itemImage, itemPrice, itemSize, itemQuantity;
-//    ArrayList<UserPageHolder> list = new ArrayList<UserPageHolder>();
+    RelativeLayout holebody;
+
+    //    ArrayList<UserPageHolder> list = new ArrayList<UserPageHolder>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,9 +67,11 @@ public class CategoryItemList extends Fragment implements View.OnClickListener {
         catiemadditem = (Button) view.findViewById(R.id.catitemmodeladdcat);
         catitemremove = (Button) view.findViewById(R.id.catitemmodelremovecat);
         pagename = (TextView) view.findViewById(R.id.pagename);
+        holebody = (RelativeLayout) view.findViewById(R.id.holebody);
         catitemremove.setOnClickListener(this);
         catiemadditem.setOnClickListener(this);
         pagename.setOnClickListener(this);
+        holebody.setOnClickListener(this);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
 //            cat_id = bundle.getString("categoryID");
@@ -78,7 +83,7 @@ public class CategoryItemList extends Fragment implements View.OnClickListener {
         }
 
 
-        Toast.makeText(getActivity(), "helloitemmodel", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "helloitemmodel", Toast.LENGTH_SHORT).show();
         catiemtabbot.setVisibility(View.GONE);
 
 //        catiemegorylist = (ArrayList<ItemModelSet>) bundle.getSerializable("CategoryListItemModelset");
@@ -160,9 +165,14 @@ public class CategoryItemList extends Fragment implements View.OnClickListener {
                 Container.add++;
                 break;
             case R.id.catitemmodelremovecat:
-                myAlertDialog();
+                if(selectedCatItemId.size()>0)
+                    myAlertDialog();
+                else
+                    Toast.makeText(getActivity(),"Please select at least one item",Toast.LENGTH_LONG).show();
                 break;
             case R.id.pagename:
+                break;
+            case R.id.holebody:
                 break;
         }
     }
@@ -280,7 +290,7 @@ public class CategoryItemList extends Fragment implements View.OnClickListener {
 
         class ViewHolder {
             TextView itemID, itemName, itemPrice, itemSize, itemQuantity;
-            CircularImageView itemImage;
+            ImageView itemImage;
             CheckBox catitemcheck;
         }
 
@@ -301,7 +311,7 @@ public class CategoryItemList extends Fragment implements View.OnClickListener {
                 holder.itemPrice = (TextView) paramView.findViewById(R.id.itemPrice);
                 holder.itemSize = (TextView) paramView.findViewById(R.id.itemSize);
                 holder.itemQuantity = (TextView) paramView.findViewById(R.id.itemQuantity);
-                holder.itemImage = (CircularImageView) paramView.findViewById(R.id.itemImage);
+                holder.itemImage = (ImageView) paramView.findViewById(R.id.itemImage);
                 holder.catitemcheck = (CheckBox) paramView.findViewById(R.id.catitemcheck);
                 if (check.equals("true")) {
                     holder.catitemcheck.setVisibility(View.VISIBLE);
@@ -313,7 +323,7 @@ public class CategoryItemList extends Fragment implements View.OnClickListener {
                 holder = (ViewHolder) paramView.getTag();
             }
 
-             UserPageHolder h = list.get(paramInt);
+            UserPageHolder h = list.get(paramInt);
 
 
 //        holder.itemID.setText(catlistitem.get(position).getItemID());
@@ -345,7 +355,7 @@ public class CategoryItemList extends Fragment implements View.OnClickListener {
 //                                    Toast.makeText(getActivity(), "image failed", Toast.LENGTH_LONG).show();
                                 }
                             });*/
-                    Picasso
+                    /*Picasso
                             .with(getActivity())
                             .load(ImagePath)
                             .placeholder(R.mipmap.uploadimage) // can also be a drawable
@@ -364,8 +374,26 @@ public class CategoryItemList extends Fragment implements View.OnClickListener {
                                 public void onError() {
 
                                 }
-                            });
+                            });*/
+                    boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+                    if (tabletSize) {
+                        Picasso.with(getActivity())
+                                .load(ImagePath)
+                                .placeholder(R.mipmap.product)   // optional
+                                .error(R.mipmap.page)      // optional
+                                .resize(150, 150)                        // optional
+                                .into(holder.itemImage);
+                    } else {
+                        Picasso.with(getActivity())
+                                .load(ImagePath)
+                                .placeholder(R.mipmap.product)   // optional
+                                .error(R.mipmap.page)      // optional
+                                .resize(100, 100)                        // optional
+                                .into(holder.itemImage);
+                    }
                 }
+            } else {
+                holder.itemImage.setBackgroundResource(R.mipmap.product);
             }
             holder.catitemcheck.setTag(paramInt);
             holder.catitemcheck.setOnClickListener(new View.OnClickListener() {

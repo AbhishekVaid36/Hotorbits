@@ -42,7 +42,7 @@ public class OrderView extends Fragment {
     public static final String MyPREFERENCES = "MyPrefs";
     String UserId, orderId, pageId, pageName, itemId, itemName, address, quantity, orderStatus, price, size;
     ArrayList<OrderListHolder> orderlist = new ArrayList<OrderListHolder>();
-    RelativeLayout rlheader;
+    RelativeLayout rlfirst;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,8 +51,8 @@ public class OrderView extends Fragment {
         View view = inflater.inflate(R.layout.activity_order_view, container, false);
         orderlistview = (ListView) view.findViewById(R.id.orderlistview);
         txtemptylist = (TextView) view.findViewById(R.id.txtemptylist);
-        rlheader = (RelativeLayout) view.findViewById(R.id.rlheader);
-        rlheader.setOnClickListener(new View.OnClickListener() {
+        rlfirst = (RelativeLayout) view.findViewById(R.id.rlfirst);
+        rlfirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

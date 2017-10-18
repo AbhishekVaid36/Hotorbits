@@ -29,9 +29,20 @@
         <item>Logout</item>
     </string-array>
     <string-array name="Currency">
-        <item >Currency</item>
+        <item>Currency</item>
         <item>USD</item>
         <item>PKR</item>
         <item>INR</item>
+    </string-array>
+    <string-array name="page_type">
+        <item>Page type</item>
+        <item>Grocery</item>
+        <item>Fast Food</item>
+        <item>Pharmacy</item>
+    </string-array>
+    <string-array name="cancel_order">
+        <item>Select Reason</item>
+        <item>Out of Stock</item>
+        <item>No delivery at your area</item>
     </string-array>
 </resources>

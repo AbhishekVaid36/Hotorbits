@@ -20,6 +20,7 @@
             android:layout_centerVertical="true"
             android:text="Home"
             android:textColor="@color/white"
+            android:background="@drawable/button_pressed"
             android:textSize="17dp"
             android:layout_marginLeft="5dp"/>
 

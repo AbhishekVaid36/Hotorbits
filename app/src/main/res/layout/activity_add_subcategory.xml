@@ -4,93 +4,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-android:background="@color/white"
-    tools:context="com.example.tabishhussain.hopeorbits.views.activities.page.AddPageCategory">
+    android:background="@color/white"
+    tools:context="co.hopeorbits.views.activities.page.AddPageCategory">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@color/brown"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/subpagename"
+                android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="TextView"
-                android:textColor="@color/blue"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <View
-                android:id="@+id/qwe"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/rl1"
-                android:background="#cccc" />
-
-            <TextView
-                android:id="@+id/aaae"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:padding="10dp"
                 android:text="Adding subcategory"
-                android:textColor="@color/blue"
-                android:textSize="20dp" />
-
-            <ImageView
-                android:id="@+id/subcateimageadd"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                app:srcCompat="@mipmap/call" />
+                android:textColor="@color/buttoncolor"
+                android:textSize="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.24"
-                    android:gravity="center"
-                    android:text="Subcategory Name" />
+                android:layout_below="@+id/txt_title"
+                android:layout_margin="10dp"
+                android:background="@drawable/black_straight_border"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <EditText
                     android:id="@+id/subcatnameedadd"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2" />
+                    android:layout_marginTop="10dp"
+                    android:hint="Sub Category Name"
+                    android:padding="15dp" />
+
+                <ImageView
+                    android:id="@+id/subcateimageadd"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:src="@mipmap/uploadimage"
+                    android:visibility="gone" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp">
+
+
+                    <RelativeLayout
+                        android:id="@+id/rlpic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/txt"
+                        android:background="@drawable/second_button_pressed">
+
+
+                        <ImageView
+                            android:id="@+id/profile_pic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="5dp"
+                            android:src="@mipmap/uploadimage" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_toRightOf="@+id/profile_pic"
+                            android:text="UPLOAD IMAGE"
+                            android:textColor="@color/white"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/txt"
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:id="@+id/subcatsave"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/txt"
+                        android:background="@drawable/button_pressed"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="SAVE"
+                        android:textColor="@color/white"
+                        android:textSize="20dp" />
+
+
+                </RelativeLayout>
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/subcatsave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="50dp"
-                android:text="Save" />
-        </LinearLayout>
-
-    </LinearLayout>
-
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

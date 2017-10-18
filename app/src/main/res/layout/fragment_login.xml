@@ -72,7 +72,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_toLeftOf="@+id/txt"
-                android:background="@color/buttoncolor"
+                android:background="@drawable/button_pressed"
                 android:padding="15dp">
 
                 <TextView

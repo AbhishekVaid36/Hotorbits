@@ -1,6 +1,7 @@
 package co.hopeorbits.views.activities.page;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,12 +25,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -60,10 +63,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddPageCategory extends Fragment implements View.OnClickListener {
-    Button catsave;
+    TextView txtsave, txt_title, txt;
     EditText catname;
-    CircularImageView catimg;
-    String base64 = "";
+    ImageView catimg;
     CategoryModelss modelss;
     PageModelLists modelLists;
     ArrayList<PageModelLists> pagemlist = new ArrayList<>();
@@ -73,19 +75,29 @@ public class AddPageCategory extends Fragment implements View.OnClickListener {
     public static final int RESULT_OK = -1;
     Fragment fragment;
     FragmentTransaction ft;
-    private String selectedPhoto,photoName;
+    private String selectedPhoto, photoName;
     private final static int REQUEST_PERMISSION_REQ_CODE = 34;
     private static final int CAMERA_CODE = 101, GALLERY_CODE = 201, CROPING_CODE = 301;
+    RelativeLayout rlpic;
+    ScrollView scroll;
+    AlertDialog.Builder alertDialog;
+    AlertDialog mDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         View view = inflater.inflate(R.layout.activity_add_category, container, false);
-        catimg = (CircularImageView) view.findViewById(R.id.cateimage);
+        catimg = (ImageView) view.findViewById(R.id.cateimage);
         catname = (EditText) view.findViewById(R.id.catnameed);
-        catsave = (Button) view.findViewById(R.id.catsave);
-        catimg.setOnClickListener(this);
-        catsave.setOnClickListener(this);
+        txtsave = (TextView) view.findViewById(R.id.txtsave);
+        txt_title = (TextView) view.findViewById(R.id.txt_title);
+        txt = (TextView) view.findViewById(R.id.txt);
+        rlpic = (RelativeLayout) view.findViewById(R.id.rlpic);
+        scroll = (ScrollView) view.findViewById(R.id.scroll);
+        scroll.setOnClickListener(this);
+//        catimg.setOnClickListener(this);
+        txtsave.setOnClickListener(this);
+        rlpic.setOnClickListener(this);
         modelss = new CategoryModelss();
         modelLists = new PageModelLists();
         SharedPreferences settings = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -96,23 +108,30 @@ public class AddPageCategory extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.cateimage:
+           /* case R.id.cateimage:
 //                Intent intent = new Intent();
-//                intent.setType("image/*");
+//                intent.setType("image*//*");
 //                intent.setAction(Intent.ACTION_GET_CONTENT);
 //                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 121);
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, GALLERY_CODE);
-                break;
-            case R.id.catsave:
+                break;*/
+            case R.id.txtsave:
                 postdatatoserver();
 //                UploadPhoto uploadProfilePhoto = new UploadPhoto();
 //                uploadProfilePhoto.execute();
+                break;
+            case R.id.rlpic:
+                Intent in = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(in, GALLERY_CODE);
+                break;
+            case R.id.scroll:
                 break;
             default:
                 break;
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -135,10 +154,11 @@ public class AddPageCategory extends Fragment implements View.OnClickListener {
             }
         }
     }
+
     private boolean validateData() {
 
         if (TextUtils.isEmpty(catname.getText().toString())) {
-            catname.setError("Please provide page name");
+            catname.setError("Please provide category name");
             return false;
         }
 //        if (base64.isEmpty()) {
@@ -256,7 +276,7 @@ public class AddPageCategory extends Fragment implements View.OnClickListener {
             modelLists.setCategoryModels(categoryModelsses);
 
             modelLists.setPageID(common.getPreferenceString(getActivity(), "PAGEID", ""));
-            Log.d("printpageid",common.getPreferenceString(getActivity(), "PAGEID", ""));
+            Log.d("printpageid", common.getPreferenceString(getActivity(), "PAGEID", ""));
 
             pagemlist.add(modelLists);
 
@@ -348,8 +368,9 @@ public class AddPageCategory extends Fragment implements View.OnClickListener {
 
                 //Getting the Bitmap from Gallery
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-                base64 = getEncoded64ImageStringFromBitmap(bitmap);
+//                base64 = getEncoded64ImageStringFromBitmap(bitmap);
                 //Setting the Bitmap to ImageView
+                catimg.setVisibility(View.VISIBLE);
                 catimg.setImageBitmap(bitmap);
                 new ImageProgress().execute();
 
@@ -368,13 +389,17 @@ public class AddPageCategory extends Fragment implements View.OnClickListener {
         System.out.println(imgString);
         return imgString;
     }
+
     public class ImageProgress extends AsyncTask<String, String, String> {
-//        private ProgressDialog pdia;
+        private ProgressDialog pdia;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            showpDialog();
+            pdia = new ProgressDialog(getActivity());
+            pdia.setMessage("Uploading...");
+            pdia.show();
+            pdia.setCancelable(false);
         }
 
         @Override
@@ -427,11 +452,12 @@ public class AddPageCategory extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            pdia.dismiss();
+            pdia = null;
 //            Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
         }
 
     }
-
 }
 
 

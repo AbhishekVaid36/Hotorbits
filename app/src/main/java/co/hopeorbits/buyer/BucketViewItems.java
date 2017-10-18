@@ -549,8 +549,14 @@ public class BucketViewItems extends Fragment implements View.OnClickListener {
                 selecteditems.clear();
             }
             FragmentManager manager = getActivity().getSupportFragmentManager();
-            manager.popBackStack();
-
+            for(int i=0;i<manager.getBackStackEntryCount();i++)
+            {
+                manager.popBackStack();
+            }
+            fragment = new BucketView();
+            ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.frame, fragment);
+            ft.commit();
         }
 
     }

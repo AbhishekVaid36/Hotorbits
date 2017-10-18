@@ -47,7 +47,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/secondbuttoncolor"
+                android:background="@drawable/second_button_pressed"
                 android:padding="15dp">
 
                 <TextView
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
-                android:background="@color/buttoncolor"
+                android:background="@drawable/button_pressed"
                 android:padding="15dp">
 
                 <TextView

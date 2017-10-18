@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="30dp"
-            android:background="@color/buttoncolor"
+            android:background="@drawable/button_pressed"
             android:orientation="horizontal">
 
             <TextView

@@ -1,92 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rlcart"
+        android:id="@+id/rlitems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/listitemborder">
+        android:background="@drawable/black_straight_border">
 
-
-        <RelativeLayout
-            android:id="@+id/rlimage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
-
-            <ImageView
-                android:id="@+id/imgshop"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp" />
-
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/imgitems"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp" />
 
         <RelativeLayout
-            android:id="@+id/rltop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/rlimage">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@+id/imgitems">
 
             <TextView
                 android:id="@+id/txtname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:text="Name:"
+                android:singleLine="true"
+                android:text="Name"
                 android:textColor="@color/buttoncolor"
-                android:textSize="15dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/txtorderno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtname"
-                android:text="Order No:"
+                android:singleLine="true"
+                android:text="Order No"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/txtstatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtorderno"
-                android:text="Status:"
+                android:singleLine="true"
+                android:text="Status"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/txtdate"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtstatus"
-                android:layout_toLeftOf="@+id/txtcredit"
-                android:layout_marginRight="2dp"
-                android:text="Date:"
+                android:text="Date"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/txtcredit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/txtdate"
+                android:layout_alignBaseline="@+id/txtdate"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:text="Credit:"
+                android:singleLine="true"
+                android:text="Cresit"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="18dp" />
 
         </RelativeLayout>
-
     </RelativeLayout>
-</RelativeLayout>
+
+</LinearLayout>

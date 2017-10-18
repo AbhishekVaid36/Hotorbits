@@ -72,6 +72,7 @@
                 android:layout_centerVertical="true"
                 android:padding="10dp"
                 android:text="EDIT"
+                android:background="@drawable/button_pressed"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
         </RelativeLayout>
@@ -128,7 +129,7 @@
         <TextView
             android:id="@+id/txtcancel"
             android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:background="@drawable/button_pressed"
             android:gravity="center_horizontal"
             android:padding="10dp"
             android:text="Cancel"
@@ -140,7 +141,7 @@
             android:id="@+id/txtremove"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@color/buttoncolor"
+            android:background="@drawable/button_pressed"
             android:gravity="center_horizontal"
             android:padding="10dp"
             android:text="Remove"
@@ -155,7 +156,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:background="@color/buttoncolor"
+        android:background="@drawable/button_pressed"
         android:gravity="center_horizontal"
         android:padding="10dp"
         android:text="Order"

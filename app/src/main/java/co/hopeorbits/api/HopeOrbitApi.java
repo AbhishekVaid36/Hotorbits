@@ -128,4 +128,6 @@ public interface HopeOrbitApi {
 
     @POST("user/createPageCategoriesItems")
     Call<JsonObject> createcategoryitemset(@Body HashMap<String, Object> map);
+    @POST("manageOrder/editOrder")
+    Call<JsonObject> removeOrder(@Body HashMap<String, Object> map);
 }

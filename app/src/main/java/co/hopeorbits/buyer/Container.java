@@ -2,6 +2,7 @@ package co.hopeorbits.buyer;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -91,7 +92,7 @@ public class Container extends AppCompatActivity implements View.OnClickListener
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs";
     public static int amount;
-    ImageView profile_pic, imgcart,imgorder;
+    ImageView profile_pic, imgcart;
     private final static int REQUEST_PERMISSION_REQ_CODE = 34;
     private static final int CAMERA_CODE = 101, GALLERY_CODE = 201, CROPING_CODE = 301;
     private static final int CAMERA_REQUEST = 1888;
@@ -102,7 +103,7 @@ public class Container extends AppCompatActivity implements View.OnClickListener
     private String selectedPhoto;
     Bitmap bitmapPath = null;
     String profileImage,profileName, message;
-
+RelativeLayout rlorder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,11 +112,11 @@ public class Container extends AppCompatActivity implements View.OnClickListener
         txtname = (TextView) findViewById(R.id.txtname);
         txtcredit = (TextView) findViewById(R.id.txtcredit);
         imgcart = (ImageView) findViewById(R.id.imgcart);
-        imgorder = (ImageView) findViewById(R.id.imgorder);
+        rlorder = (RelativeLayout) findViewById(R.id.rlorder);
         rlpic = (RelativeLayout) findViewById(R.id.rlpic);
         profile_pic = (ImageView) findViewById(R.id.imgpic);
         imgcart.setOnClickListener(this);
-        imgorder.setOnClickListener(this);
+        rlorder.setOnClickListener(this);
         rlpic.setOnClickListener(this);
         profile_pic.setOnClickListener(this);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -175,7 +176,7 @@ public class Container extends AppCompatActivity implements View.OnClickListener
 //                Container.add++;
 
                 break;
-            case R.id.imgorder:
+            case R.id.rlorder:
                  manager =getSupportFragmentManager();
                 for (int i = 0; i <= manager.getBackStackEntryCount(); i++) {
                     manager.popBackStack();
@@ -692,10 +693,15 @@ public class Container extends AppCompatActivity implements View.OnClickListener
     }
 
     public class UploadImage extends AsyncTask<String, String, String> {
+        private ProgressDialog pdia;
         @Override
         protected void onPreExecute() {
             // TODO Auto-generated method stub
             super.onPreExecute();
+            pdia = new ProgressDialog(Container.this);
+            pdia.setMessage("Uploading...");
+            pdia.show();
+            pdia.setCancelable(false);
         }
 
         @Override
@@ -730,6 +736,8 @@ public class Container extends AppCompatActivity implements View.OnClickListener
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
+            pdia.dismiss();
+            pdia = null;
             profile_pic.setBackgroundDrawable(new BitmapDrawable(getApplicationContext().getResources(), bitmapPath));
             rlpic.setVisibility(View.GONE);
         }

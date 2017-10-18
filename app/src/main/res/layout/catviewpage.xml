@@ -1,47 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/catliniar"
+    <RelativeLayout
+        android:id="@+id/rlcategory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <ImageView
             android:id="@+id/catimg"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:civ_border_color="@color/blue"
-            app:civ_border_width="2dp" />
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true" />
 
-        <LinearLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/catimg"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:id="@+id/cattxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="TextView" />
+                android:layout_toLeftOf="@+id/catcheck"
+                android:text=""
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15dp" />
 
             <CheckBox
                 android:id="@+id/catcheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_marginLeft="2dp"
-                android:gravity="center"
                 android:visibility="visible" />
 
-        </LinearLayout>
 
-    </LinearLayout>
-</LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

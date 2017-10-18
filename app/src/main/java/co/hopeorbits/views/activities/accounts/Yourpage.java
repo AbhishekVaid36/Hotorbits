@@ -65,6 +65,7 @@ public class Yourpage extends Fragment implements View.OnClickListener {
     ArrayList<UserPageHolder> list = new ArrayList<UserPageHolder>();
     TextView txtemptylist;
     public static JSONArray CategoryListSet;
+    RelativeLayout holebody;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,9 +76,11 @@ public class Yourpage extends Fragment implements View.OnClickListener {
         remove = (Button) view.findViewById(R.id.remove);
         textheader = (TextView) view.findViewById(R.id.textheader);
         txtemptylist = (TextView) view.findViewById(R.id.txtemptylist);
+        holebody = (RelativeLayout) view.findViewById(R.id.holebody);
         remove.setOnClickListener(this);
         createnew.setOnClickListener(this);
         textheader.setOnClickListener(this);
+        holebody.setOnClickListener(this);
         recyclerpage = (ListView) view.findViewById(R.id.recyclerpage);
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 //        recyclerpage.setHasFixedSize(true);
@@ -101,9 +104,14 @@ public class Yourpage extends Fragment implements View.OnClickListener {
                 Container.add++;
                 break;
             case R.id.remove:
-                myAlertDialog();
+                if (selectedPageId.size() > 0)
+                    myAlertDialog();
+                else
+                    Toast.makeText(getActivity(), "Please select at least one page", Toast.LENGTH_LONG).show();
                 break;
             case R.id.textheader:
+                break;
+            case R.id.holebody:
                 break;
         }
     }

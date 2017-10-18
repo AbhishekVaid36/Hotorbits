@@ -14,12 +14,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -34,12 +35,12 @@ import co.hopeorbits.buyer.JSONParser;
 import co.hopeorbits.holder.UserPageHolder;
 import co.hopeorbits.views.activities.accounts.Yourpage;
 
-public class SubcategoryinItemmodelset extends Fragment  implements View.OnClickListener{
+public class SubcategoryinItemmodelset extends Fragment implements View.OnClickListener {
 
     private SubCategoryItemkSetAdapter subCategoryItemkSetAdapter;
     private TextView editbtn;
-    String check="false",message;
-    Button addcat,subremovecatitem, additem;
+    String check = "false", message;
+    Button addcat, subremovecatitem, additem;
     LinearLayout tabbot;
 
     ListView subcatinitemsetrecycler;
@@ -51,6 +52,8 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
     TextView pagename;
     JSONArray jsonArray;
     String itemID, itemName, itemImage, itemPrice, itemSize, itemQuantity;
+    RelativeLayout holebody;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,8 +62,9 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
         editbtn = (TextView) view.findViewById(R.id.subitemeditbtn);
         tabbot = (LinearLayout) view.findViewById(R.id.subitemtabbot);
         addcat = (Button) view.findViewById(R.id.subitemaddcat);
-        subremovecatitem=(Button) view.findViewById(R.id.subitemremovecat);
-        pagename=(TextView)view.findViewById(R.id.pagename);
+        subremovecatitem = (Button) view.findViewById(R.id.subitemremovecat);
+        pagename = (TextView) view.findViewById(R.id.pagename);
+        holebody = (RelativeLayout) view.findViewById(R.id.holebody);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
 //            cat_id = bundle.getString("categoryID");
@@ -74,6 +78,7 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
         addcat.setOnClickListener(this);
         subremovecatitem.setOnClickListener(this);
         pagename.setOnClickListener(this);
+        holebody.setOnClickListener(this);
 
 //        addcat.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -156,6 +161,7 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
         });
         return view;
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -171,12 +177,18 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
                 Container.add++;
                 break;
             case R.id.subitemremovecat:
-                myAlertDialog();
+                if (selectedSubCatItemId.size() > 0)
+                    myAlertDialog();
+                else
+                    Toast.makeText(getActivity(), "Please select at least one sub category item", Toast.LENGTH_LONG).show();
                 break;
             case R.id.pagename:
                 break;
+            case R.id.holebody:
+                break;
         }
     }
+
     private void myAlertDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
@@ -200,6 +212,7 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
         // show it
         alertDialog.show();
     }
+
     public class DeleteCatItemProgress extends AsyncTask<String, String, String> {
 //        private ProgressDialog pdia;
 
@@ -249,8 +262,7 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
             selectedSubCatItemId.clear();
-            for(int i=0;i<3;i++)
-            {
+            for (int i = 0; i < 3; i++) {
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 manager.popBackStack();
             }
@@ -265,6 +277,7 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
         }
 
     }
+
     class SubCategoryItemkSetAdapter extends BaseAdapter {
 
         LayoutInflater inflater;
@@ -289,7 +302,7 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
 
         class ViewHolder {
             TextView itemID, itemName, itemPrice, itemSize, itemQuantity;
-            CircularImageView itemImage;
+            ImageView itemImage;
             public LinearLayout catliniar;
             public CheckBox catcheck;
         }
@@ -311,7 +324,7 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
                 holder.itemPrice = (TextView) paramView.findViewById(R.id.itemPrice);
                 holder.itemSize = (TextView) paramView.findViewById(R.id.itemSize);
                 holder.itemQuantity = (TextView) paramView.findViewById(R.id.itemQuantity);
-                holder.itemImage = (CircularImageView) paramView.findViewById(R.id.itemImage);
+                holder.itemImage = (ImageView) paramView.findViewById(R.id.itemImage);
                 holder.catcheck = (CheckBox) paramView.findViewById(R.id.catitemcheck);
                 if (check.equals("true")) {
                     holder.catcheck.setVisibility(View.VISIBLE);
@@ -323,17 +336,17 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
                 holder = (ViewHolder) paramView.getTag();
             }
 
-             UserPageHolder h = list.get(paramInt);
+            UserPageHolder h = list.get(paramInt);
 
 
 //        holder.itemID.setText(catlistitem.get(position).getItemID());
-            holder.itemName.setText("Item: "+h.getItemName());
-            holder.itemPrice.setText("Price: "+h.getItemPrice()+"\u20A8");
-            holder.itemSize.setText("Size: "+h.getItemSize());
-            holder.itemQuantity.setText("Quantity: "+h.getItemQuantity());
+            holder.itemName.setText("Item: " + h.getItemName());
+            holder.itemPrice.setText("Price: " + h.getItemPrice() + "\u20A8");
+            holder.itemSize.setText("Size: " + h.getItemSize());
+            holder.itemQuantity.setText("Quantity: " + h.getItemQuantity());
             final String ImagePath = h.getItemImage();
             if (ImagePath != null) {
-                if(!ImagePath.isEmpty()) {
+                if (!ImagePath.isEmpty()) {
 
                     /*Picasso.with(getActivity())
                             .load("http://13.58.110.101:8080"+imgstr)
@@ -355,7 +368,7 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
 //                                    Toast.makeText(getActivity(), "image failed", Toast.LENGTH_LONG).show();
                                 }
                             });*/
-                    Picasso
+                   /* Picasso
                             .with(getActivity())
                             .load(ImagePath)
                             .placeholder(R.mipmap.uploadimage) // can also be a drawable
@@ -374,8 +387,26 @@ public class SubcategoryinItemmodelset extends Fragment  implements View.OnClick
                                 public void onError() {
 
                                 }
-                            });
+                            });*/
+                    boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+                    if (tabletSize) {
+                        Picasso.with(getActivity())
+                                .load(ImagePath)
+                                .placeholder(R.mipmap.product)   // optional
+                                .error(R.mipmap.page)      // optional
+                                .resize(150, 150)                        // optional
+                                .into(holder.itemImage);
+                    } else {
+                        Picasso.with(getActivity())
+                                .load(ImagePath)
+                                .placeholder(R.mipmap.product)   // optional
+                                .error(R.mipmap.page)      // optional
+                                .resize(100, 100)                        // optional
+                                .into(holder.itemImage);
+                    }
                 }
+            } else {
+                holder.itemImage.setBackgroundResource(R.mipmap.product);
             }
             holder.catcheck.setTag(paramInt);
             holder.catcheck.setOnClickListener(new View.OnClickListener() {

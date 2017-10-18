@@ -1,6 +1,7 @@
 package co.hopeorbits.views.activities.page;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,9 +24,11 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -64,10 +67,10 @@ import retrofit2.Response;
 public class AddSubcategory extends Fragment implements View.OnClickListener {
 
 
-    String subcatbase64 = "";
+//    String subcatbase64 = "";
     ImageView subcateimage;
     EditText subcatnameed;
-    Button subcatsave;
+    TextView subcatsave;
 
     SubpageModelList pageModelList;
     SubCategoryModels subCategoryModels;
@@ -87,7 +90,11 @@ public class AddSubcategory extends Fragment implements View.OnClickListener {
     private String selectedPhoto,photoName;
     private final static int REQUEST_PERMISSION_REQ_CODE = 34;
     private static final int CAMERA_CODE = 101, GALLERY_CODE = 201, CROPING_CODE = 301;
-    String base64 = "";
+//    String base64 = "";
+    ScrollView scroll;
+    RelativeLayout rlpic;
+    AlertDialog.Builder alertDialog;
+    AlertDialog mDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,9 +102,13 @@ public class AddSubcategory extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.activity_add_subcategory, container, false);
         subcateimage = (ImageView) view.findViewById(R.id.subcateimageadd);
         subcatnameed = (EditText) view.findViewById(R.id.subcatnameedadd);
-        subcatsave = (Button) view.findViewById(R.id.subcatsave);
+        subcatsave = (TextView) view.findViewById(R.id.subcatsave);
+        scroll=(ScrollView)view.findViewById(R.id.scroll);
+        rlpic=(RelativeLayout)view.findViewById(R.id.rlpic);
         subcateimage.setOnClickListener(this);
         subcatsave.setOnClickListener(this);
+        scroll.setOnClickListener(this);
+        rlpic.setOnClickListener(this);
 
         SubCategoryIntoCategoryList = new SubCategoryIntoCategoryList();
         subCategoryModels = new SubCategoryModels();
@@ -120,11 +131,17 @@ public class AddSubcategory extends Fragment implements View.OnClickListener {
 //                intent.setType("image/*");
 //                intent.setAction(Intent.ACTION_GET_CONTENT);
 //                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1234);
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, GALLERY_CODE);
+//                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(i, GALLERY_CODE);
                 break;
             case R.id.subcatsave:
                 createPageChildcat();
+                break;
+            case R.id.scroll:
+                break;
+            case R.id.rlpic:
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, GALLERY_CODE);
                 break;
         }
     }
@@ -258,8 +275,9 @@ public class AddSubcategory extends Fragment implements View.OnClickListener {
 
                 //Getting the Bitmap from Gallery
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-                base64 = getEncoded64ImageStringFromBitmap(bitmap);
+//                base64 = getEncoded64ImageStringFromBitmap(bitmap);
                 //Setting the Bitmap to ImageView
+                subcateimage.setVisibility(View.VISIBLE);
                 subcateimage.setImageBitmap(bitmap);
                 new ImageProgress().execute();
 
@@ -278,12 +296,15 @@ public class AddSubcategory extends Fragment implements View.OnClickListener {
         return imgString;
     }
     public class ImageProgress extends AsyncTask<String, String, String> {
-//        private ProgressDialog pdia;
+        private ProgressDialog pdia;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            showpDialog();
+            pdia = new ProgressDialog(getActivity());
+            pdia.setMessage("Uploading...");
+            pdia.show();
+            pdia.setCancelable(false);
         }
 
         @Override
@@ -336,9 +357,10 @@ public class AddSubcategory extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            pdia.dismiss();
+            pdia = null;
 //            Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
         }
 
     }
-
 }

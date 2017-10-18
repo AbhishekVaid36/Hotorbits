@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,7 +46,7 @@ public class SellerOrderView extends Fragment {
     FragmentTransaction ft;
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs";
-    String UserId, orderId, pageId, pageName, itemId, itemName, address, quantity, orderStatus, price, size, creditInfo;
+    String UserId, orderId, pageId, pageName, itemId, itemName,date, address, quantity, orderStatus, price, size, creditInfo;
     ArrayList<OrderListHolder> orderlist = new ArrayList<OrderListHolder>();
 RelativeLayout rlheader;
     @Override
@@ -85,6 +86,7 @@ RelativeLayout rlheader;
                                 itemId = obj.getString("itemId");
                                 address = obj.getString("address");
                                 itemName = obj.getString("itemName");
+                                date=obj.getString("date");
                                 quantity = obj.getString("quantity");
                                 orderStatus = obj.getString("orderStatus");
                                 price = obj.getString("price");
@@ -97,6 +99,7 @@ RelativeLayout rlheader;
                                 h.setPageName(pageName);
                                 h.setItemId(itemId);
                                 h.setItemName(itemName);
+                                h.setDate(date);
                                 h.setQuantity(quantity);
                                 h.setOrderStatus(orderStatus);
                                 h.setPrice(price);
@@ -171,6 +174,7 @@ RelativeLayout rlheader;
         class ViewHolder {
             TextView txtname, txtorderno, txtstatus, txtdate, txtcredit;
             RelativeLayout rlcart;
+            ImageView imgshop;
         }
 
         @Override
@@ -186,6 +190,7 @@ RelativeLayout rlheader;
                 holder.txtdate = (TextView) convertView.findViewById(R.id.txtdate);
                 holder.txtcredit = (TextView) convertView.findViewById(R.id.txtcredit);
                 holder.rlcart = (RelativeLayout) convertView.findViewById(R.id.rlcart);
+                holder.imgshop=(ImageView)convertView.findViewById(R.id.imgshop);
                 convertView.setTag(holder);
             } else {
                 holder = (MyCustomAdapter.ViewHolder) convertView.getTag();
@@ -198,7 +203,7 @@ RelativeLayout rlheader;
                 holder.txtstatus.setText("Status: Pending");
                 else
             holder.txtstatus.setText("Status: Completed");
-            holder.txtdate.setText("Date: null");
+            holder.txtdate.setText("Date: "+h.getDate());
             holder.txtcredit.setText("Credit: "+h.getCreditInfo());
 
             holder.rlcart.setTag(position);
@@ -219,7 +224,7 @@ RelativeLayout rlheader;
                     Container.add++;
                 }
             });
-
+            holder.imgshop.setBackgroundResource(R.mipmap.product);
             return convertView;
         }
     }

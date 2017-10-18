@@ -1,6 +1,7 @@
 package co.hopeorbits.views.activities.page;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,21 +19,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -48,7 +48,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,13 +65,10 @@ import retrofit2.Response;
 public class HomeActivity extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     PageModelList modelList;
     ArrayList<PageModelList> modelLists = new ArrayList<>();
-    ImageView refres, msg, altmsg, shoping;
-    EditText pagename, details;
-    Button go, check;
-    String currency = "";
-    String base64 = "";
-    Spinner spinner;
-    String id, Pageidswrongarray;
+    EditText pagename;
+    String currency = "", pageType = "";
+    Spinner sp_currency, sp_page_type;
+    String id;
     String Ids;
     String findpagename;
 
@@ -81,45 +77,69 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Adap
     EditText add_search;
     Fragment fragment;
     FragmentTransaction ft;
-    android.app.AlertDialog mDialog;
-    CircularImageView img;
+    ImageView img;
     public static final int RESULT_OK = -1;
     private String selectedPhoto, photoName;
     private final static int REQUEST_PERMISSION_REQ_CODE = 34;
     private static final int CAMERA_CODE = 101, GALLERY_CODE = 201, CROPING_CODE = 301;
+    TextView txtcheck, txtsubmit;
+    RelativeLayout rlpic;
+    AlertDialog.Builder alertDialog;
+    AlertDialog mDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         View view = inflater.inflate(R.layout.activity_home, container, false);
-        img = (CircularImageView) view.findViewById(R.id.img);
+        txtcheck = (TextView) view.findViewById(R.id.txtcheck);
+        txtsubmit = (TextView) view.findViewById(R.id.txtsubmit);
+        img = (ImageView) view.findViewById(R.id.img);
+        rlpic = (RelativeLayout) view.findViewById(R.id.rlpic);
         modelList = new PageModelList();
-
 ////bind
 //        refres = (ImageView) findViewById(R.id.refress);
 //        msg = (ImageView) findViewById(R.id.msg);
 //        altmsg = (ImageView) findViewById(R.id.msgalert);
 //        shoping = (ImageView) findViewById(R.id.shoping);
         pagename = (EditText) view.findViewById(R.id.pagename);
-        details = (EditText) view.findViewById(R.id.details);
 
-        check = (Button) view.findViewById(R.id.check);
-        check.setOnClickListener(this);
-        go = (Button) view.findViewById(R.id.go);
-        go.setOnClickListener(this);
+        txtcheck.setOnClickListener(this);
+        txtsubmit.setOnClickListener(this);
+        rlpic.setOnClickListener(this);
 
         SharedPreferences settings = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Ids = settings.getString("Id", "");
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        spinner.setPrompt("Select an item");
+        sp_currency = (Spinner) view.findViewById(R.id.sp_currency);
+        sp_page_type = (Spinner) view.findViewById(R.id.sp_page_type);
+//        spinner.setPrompt("Select an item");
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+        ArrayAdapter<CharSequence> CurrencyAdapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.Currency, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> pageTypeAdapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.page_type, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        CurrencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pageTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        sp_currency.setAdapter(CurrencyAdapter);
+        sp_page_type.setAdapter(pageTypeAdapter);
+        sp_currency.setOnItemSelectedListener(this);
+//        sp_page_type.setOnItemSelectedListener(this);
+        sp_page_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                pageType = sp_page_type.getSelectedItem().toString();
+                if (pageType.equals("Page type")) {
+                    pageType = "";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         img.setOnClickListener(this);
         return view;
     }
@@ -131,18 +151,15 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Adap
             pagename.setError("Please provide page name");
             return false;
         }
-        if (TextUtils.isEmpty(details.getText().toString())) {
-            details.setError("Please provide  details");
-            return false;
-        }
+
         if (currency.isEmpty()) {
             Toast.makeText(getActivity(), "Select currency...", Toast.LENGTH_LONG).show();
             return false;
         }
-//        if (base64.isEmpty()) {
-//            Toast.makeText(getApplicationContext(), "Choose Image...", Toast.LENGTH_LONG).show();
-//            return false;
-//        }
+        if (pageType.isEmpty()) {
+            Toast.makeText(getActivity(), "Select page type...", Toast.LENGTH_LONG).show();
+            return false;
+        }
         return true;
     }
 
@@ -151,15 +168,15 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Adap
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.go:
+            case R.id.txtsubmit:
                 postingpage();
 //                UploadPhoto uploadProfilePhoto = new UploadPhoto();
 //                uploadProfilePhoto.execute();
                 break;
-            case R.id.check:
+            case R.id.txtcheck:
                 avaibilitycheck();
                 break;
-            case R.id.img:
+            case R.id.rlpic:
 //                Intent intent = new Intent();
 //                intent.setType("image/*");
 //                intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -167,8 +184,13 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Adap
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, GALLERY_CODE);
                 break;
+            case R.id.img:
+//                Intent in = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(in, GALLERY_CODE);
+                break;
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -222,9 +244,10 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Adap
 
                 //Getting the Bitmap from Gallery
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-                base64 = getEncoded64ImageStringFromBitmap(bitmap);
+//                base64 = getEncoded64ImageStringFromBitmap(bitmap);
                 //Setting the Bitmap to ImageView
                 img.setImageBitmap(bitmap);
+                img.setVisibility(View.VISIBLE);
                 new ImageProgress().execute();
 
             } catch (IOException e) {
@@ -233,7 +256,7 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Adap
         }
     }
 
-    public String getEncoded64ImageStringFromBitmap(Bitmap bitmap) {
+  /*  public String getEncoded64ImageStringFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
         byte[] byteFormat = stream.toByteArray();
@@ -241,67 +264,21 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Adap
         String imgString = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
         System.out.println(imgString);
         return imgString;
-    }
+    }*/
 
     public class ImageProgress extends AsyncTask<String, String, String> {
-//        private ProgressDialog pdia;
-
+        private ProgressDialog pdia;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            showpDialog();
+            pdia = new ProgressDialog(getActivity());
+            pdia.setMessage("Uploading...");
+            pdia.show();
+            pdia.setCancelable(false);
         }
 
         @Override
         protected String doInBackground(String... params) {
-//            try {
-//                int TIMEOUT_MILLISEC = 10000;  // = 10 seconds
-//                HttpParams httpParams = new BasicHttpParams();
-//                HttpConnectionParams.setConnectionTimeout(httpParams, TIMEOUT_MILLISEC);
-//                HttpConnectionParams.setSoTimeout(httpParams, TIMEOUT_MILLISEC);
-//                HttpClient client = new DefaultHttpClient(httpParams);
-//                HttpPost request = new HttpPost("http://13.58.110.101:8080/hoprepositoryweb/user/uploadFile");
-//                request.setHeader("Accept", "application/json");
-//                request.setHeader("Content-Type", "application/json");
-//
-//                File sourceFile = new File(selectedPhoto);
-//                FileBody fileBody = new FileBody(sourceFile);
-//
-//                request.setEntity(new StringEntity(fileBody.toString()));
-//                HttpResponse response = client.execute(request);
-//                HttpEntity entity = response.getEntity();
-//                response.getEntity().getContentLength();  //it should not be 0
-//
-//
-//                StringBuilder sb = new StringBuilder();
-//                try {
-//                    BufferedReader reader =
-//                            new BufferedReader(new InputStreamReader(entity.getContent()), 65728);
-//                    String line = null;
-//
-//                    while ((line = reader.readLine()) != null) {
-//                        sb.append(line);
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//                System.out.println("finalResult " + sb.toString());
-//                try {
-//                    JSONObject jsonObj = new JSONObject(sb.toString());
-//                    if (jsonObj.has("message")) {
-////                            message = jsonObj.getString("message");
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            } catch (Exception e) {
-//            }
-//
-//            return null;
             String responseString = null;
 
             HttpClient httpclient = new DefaultHttpClient();
@@ -350,7 +327,8 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Adap
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
+            pdia.dismiss();
+            pdia = null;
         }
 
     }
@@ -400,7 +378,7 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Adap
                 modelLists.clear();
                 modelList.setPageName(pagename.getText().toString());
                 modelList.setCurrency(currency);
-                modelList.setDetails(details.getText().toString());
+                modelList.setDetails(pageType);
                 modelList.setPageImage(photoName);
                 modelLists.add(modelList);
             } catch (Exception e) {
@@ -485,7 +463,7 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        currency = spinner.getSelectedItem().toString();
+        currency = sp_currency.getSelectedItem().toString();
         if (currency.equals("Currency")) {
             currency = "";
         }

@@ -14,21 +14,29 @@
         android:layout_marginRight="5dp">
 
         <TextView
-            android:id="@+id/txt"
+            android:id="@+id/txttitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/black_straight_border"
-            android:text="Orders View"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:padding="5dp"
+            android:text="MY ORDER VIEW PAGE NAME"
+            android:textColor="@color/buttoncolor"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/txttitle"
+            android:background="@color/brown" />
 
         <ListView
             android:id="@+id/orderlistview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/txt"
-            android:dividerHeight="0dp"></ListView>
+            android:layout_below="@+id/view"
+            android:dividerHeight="0dp"
+            android:layout_marginBottom="5dp"></ListView>
 
         <TextView
             android:id="@+id/txtemptylist"

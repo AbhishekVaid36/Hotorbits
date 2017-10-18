@@ -15,12 +15,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -38,7 +39,7 @@ import co.hopeorbits.views.activities.accounts.Yourpage;
 
 
 public class CategoryList extends Fragment implements View.OnClickListener {
-    ListView categoriesrecycler;
+    GridView categoriesrecycler;
     ArrayList<UserPageHolder> list = new ArrayList<>();
     private CategoryListAdapter adapter;
     private TextView editbtn;
@@ -53,6 +54,7 @@ public class CategoryList extends Fragment implements View.OnClickListener {
     String pageID, pageName, categoryID, categoryName, categoryImage, itemModelSet, categoryIntoCategoryList;
     public static JSONArray ItemModelSet;
     public static JSONArray SubCategoryListSet;
+RelativeLayout holebody;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,9 +65,11 @@ public class CategoryList extends Fragment implements View.OnClickListener {
         addcat = (Button) view.findViewById(R.id.addcat);
         removecat = (Button) view.findViewById(R.id.removecat);
         pagename = (TextView) view.findViewById(R.id.pagename);
+        holebody=(RelativeLayout)view.findViewById(R.id.holebody);
         pagename.setOnClickListener(this);
         addcat.setOnClickListener(this);
         removecat.setOnClickListener(this);
+        holebody.setOnClickListener(this);
 
 //        Toast.makeText(getActivity(),"hello",Toast.LENGTH_SHORT).show();
         tabbot.setVisibility(View.GONE);
@@ -77,7 +81,7 @@ public class CategoryList extends Fragment implements View.OnClickListener {
 
 //        list = (ArrayList<CategoryModels>) bundle.getSerializable("mylist");
 //        pageId=bundle.getString("pageId");
-        categoriesrecycler = (ListView) view.findViewById(R.id.categoriesrecycler);
+        categoriesrecycler = (GridView) view.findViewById(R.id.categoriesrecycler);
 
 //        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
 //        categoriesrecycler.setLayoutManager(layoutManager);
@@ -149,9 +153,14 @@ public class CategoryList extends Fragment implements View.OnClickListener {
                 Container.add++;
                 break;
             case R.id.removecat:
+                if(selectedCatId.size()>0)
                 myAlertDialog();
+                else
+                    Toast.makeText(getActivity(),"Please select at least one category",Toast.LENGTH_LONG).show();
                 break;
             case R.id.pagename:
+                break;
+            case R.id.holebody:
                 break;
         }
     }
@@ -229,17 +238,17 @@ public class CategoryList extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
             selectedCatId.clear();
-            for (int i = 0; i < 2; i++) {
-                FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
                 manager.popBackStack();
             }
 
             fragment = new Yourpage();
             ft = getActivity().getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.frame, fragment);
-            ft.addToBackStack("add" + Container.add);
+            ft.replace(R.id.frame, fragment);
+//            ft.addToBackStack("add" + Container.add);
             ft.commit();
-            Container.add++;
+//            Container.add++;
 
         }
 
@@ -269,8 +278,8 @@ public class CategoryList extends Fragment implements View.OnClickListener {
 
         class ViewHolder {
             public TextView cattxt;
-            public CircularImageView catimg;
-            public LinearLayout catliniar;
+            public ImageView catimg;
+            public RelativeLayout rlcategory;
             public CheckBox catcheck;
         }
 
@@ -288,8 +297,8 @@ public class CategoryList extends Fragment implements View.OnClickListener {
                 holder = new ViewHolder();
 
                 holder.cattxt = (TextView) paramView.findViewById(R.id.cattxt);
-                holder.catimg = (CircularImageView) paramView.findViewById(R.id.catimg);
-                holder.catliniar = (LinearLayout) paramView.findViewById(R.id.catliniar);
+                holder.catimg = (ImageView) paramView.findViewById(R.id.catimg);
+                holder.rlcategory = (RelativeLayout) paramView.findViewById(R.id.rlcategory);
                 holder.catcheck = (CheckBox) paramView.findViewById(R.id.catcheck);
                 if (check.equals("true")) {
                     holder.catcheck.setVisibility(View.VISIBLE);
@@ -327,7 +336,7 @@ public class CategoryList extends Fragment implements View.OnClickListener {
 //                                    Toast.makeText(getActivity(), "image failed", Toast.LENGTH_LONG).show();
                                 }
                             });*/
-                    Picasso
+                    /*Picasso
                             .with(getActivity())
                             .load(ImagePath)
                             .placeholder(R.mipmap.uploadimage) // can also be a drawable
@@ -346,14 +355,33 @@ public class CategoryList extends Fragment implements View.OnClickListener {
                                 public void onError() {
 
                                 }
-                            });
+                            });*/
+                    boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+                    if (tabletSize) {
+                        Picasso.with(getActivity())
+                                .load(ImagePath)
+                                .placeholder(R.mipmap.category)   // optional
+                                .error(R.mipmap.page)      // optional
+                                .resize(150, 150)                        // optional
+                                .into(holder.catimg);
+                    } else {
+                        Picasso.with(getActivity())
+                                .load(ImagePath)
+                                .placeholder(R.mipmap.category)   // optional
+                                .error(R.mipmap.page)      // optional
+                                .resize(100, 100)                        // optional
+                                .into(holder.catimg);
+                    }
                 }
+            } else {
+                holder.catimg.setBackgroundResource(R.mipmap.category);
             }
+
 
             final String cattegoryId = h.getCategoryID();
             Log.d("ccattegoryId", cattegoryId);
-            holder.catliniar.setTag(paramInt);
-            holder.catliniar.setOnClickListener(new View.OnClickListener() {
+            holder.rlcategory.setTag(paramInt);
+            holder.rlcategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (h.getCategoryIntoCategoryList().length() == 2) {
@@ -415,6 +443,7 @@ public class CategoryList extends Fragment implements View.OnClickListener {
                             Bundle b = new Bundle();
 //                            b.putSerializable("CategoryList", h.getCategoryIntoCategoryList());
                             b.putString("subcatoritem", cattegoryId);
+                            b.putString("pageId", pageId);
                             fragment = new SubcategoryList();
                             fragment.setArguments(b);
                             ft = getActivity().getSupportFragmentManager().beginTransaction();

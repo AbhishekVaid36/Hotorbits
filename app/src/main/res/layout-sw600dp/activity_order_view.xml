@@ -7,27 +7,70 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rlheader"
+        android:id="@+id/rlfirst"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <TextView
-            android:id="@+id/txt"
+            android:id="@+id/txttitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/black_straight_border"
-            android:text="Orders View"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:padding="5dp"
+            android:text="MY ORDER"
+            android:textColor="@color/buttoncolor"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txttitle"
+            android:background="@color/buttoncolor">
+
+            <TextView
+                android:id="@+id/txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/view"
+                android:padding="5dp"
+                android:text="Page Name"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:layout_toLeftOf="@+id/txtstatus"
+                android:background="@color/brown" />
+
+            <TextView
+                android:id="@+id/txtstatus"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/txt"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="7dp"
+                android:text="Status"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/orderlistview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/txt"
+            android:layout_below="@+id/header"
             android:dividerHeight="0dp"></ListView>
 
         <TextView

@@ -14,12 +14,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -40,7 +41,7 @@ public class SubcategoryList extends Fragment implements View.OnClickListener {
     Button addsubcat, removesubcat, additem;
     LinearLayout tabbot;
     ArrayList<UserPageHolder> categorylist = new ArrayList<>();
-    ListView subcategoriesrecycler;
+    GridView subcategoriesrecycler;
     private SubCategoryListAdapter adapter;
     String cat_id, pageId;
     Fragment fragment;
@@ -50,6 +51,7 @@ TextView pagename;
     JSONArray jsonArray;
     String pageID, pageName, categoryID, categoryName, categoryImage, itemModelSet, categoryIntoCategoryList;
     public static JSONArray ItemModelSet;
+    RelativeLayout holebody;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ TextView pagename;
         addsubcat = (Button) view.findViewById(R.id.subaddcat);
         removesubcat = (Button) view.findViewById(R.id.subremovecat);
         pagename=(TextView)view.findViewById(R.id.pagename);
+        holebody=(RelativeLayout)view.findViewById(R.id.holebody);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             cat_id = bundle.getString("subcatoritem");
@@ -69,6 +72,7 @@ TextView pagename;
         addsubcat.setOnClickListener(this);
         removesubcat.setOnClickListener(this);
         pagename.setOnClickListener(this);
+        holebody.setOnClickListener(this);
 //        addcat.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -91,12 +95,12 @@ TextView pagename;
 //            }
 //        });
 
-        Toast.makeText(getActivity(), "hello", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "hello", Toast.LENGTH_SHORT).show();
         tabbot.setVisibility(View.GONE);
 
 //        categorylist = (ArrayList<CategoryIntoCategoryList>) bundle.getSerializable("CategoryList");
 
-        subcategoriesrecycler = (ListView) view.findViewById(R.id.subcategoryrecycler);
+        subcategoriesrecycler = (GridView) view.findViewById(R.id.subcategoryrecycler);
 //        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
 //        subcategoriesrecycler.setLayoutManager(layoutManager);
         try {
@@ -171,9 +175,14 @@ TextView pagename;
                 Container.add++;
                 break;
             case R.id.subremovecat:
-                myAlertDialog();
+                if(selectedSubCatId.size()>0)
+                    myAlertDialog();
+                else
+                    Toast.makeText(getActivity(),"Please select at least one sub category",Toast.LENGTH_LONG).show();
                 break;
             case R.id.pagename:
+                break;
+            case R.id.holebody:
                 break;
         }
     }
@@ -291,8 +300,8 @@ TextView pagename;
 
         class ViewHolder {
             public TextView cattxt;
-            public CircularImageView catimg;
-            public LinearLayout catliniar;
+            public ImageView catimg;
+            public RelativeLayout rlsubcategory;
             public CheckBox catcheck;
         }
 
@@ -310,8 +319,8 @@ TextView pagename;
                 holder = new ViewHolder();
 
                 holder.cattxt = (TextView) paramView.findViewById(R.id.subcattxt);
-                holder.catimg = (CircularImageView) paramView.findViewById(R.id.subcatimg);
-                holder.catliniar = (LinearLayout) paramView.findViewById(R.id.subcatliniar);
+                holder.catimg = (ImageView) paramView.findViewById(R.id.subcatimg);
+                holder.rlsubcategory = (RelativeLayout) paramView.findViewById(R.id.rlsubcategory);
                 holder.catcheck = (CheckBox) paramView.findViewById(R.id.subcatcheck);
 
                 if (check.equals("true")) {
@@ -349,7 +358,7 @@ TextView pagename;
 //                                    Toast.makeText(getActivity(), "image failed", Toast.LENGTH_LONG).show();
                                 }
                             });*/
-                    Picasso
+                    /*Picasso
                             .with(getActivity())
                             .load(ImagePath)
                             .placeholder(R.mipmap.uploadimage) // can also be a drawable
@@ -368,12 +377,30 @@ TextView pagename;
                                 public void onError() {
 
                                 }
-                            });
+                            });*/
+                    boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+                    if (tabletSize) {
+                        Picasso.with(getActivity())
+                                .load(ImagePath)
+                                .placeholder(R.mipmap.category)   // optional
+                                .error(R.mipmap.page)      // optional
+                                .resize(150, 150)                        // optional
+                                .into(holder.catimg);
+                    } else {
+                        Picasso.with(getActivity())
+                                .load(ImagePath)
+                                .placeholder(R.mipmap.category)   // optional
+                                .error(R.mipmap.page)      // optional
+                                .resize(100, 100)                        // optional
+                                .into(holder.catimg);
+                    }
                 }
+            } else {
+                holder.catimg.setBackgroundResource(R.mipmap.category);
             }
             holder.cattxt.setText(h.getCategoryName());
-            holder.catliniar.setTag(paramInt);
-            holder.catliniar.setOnClickListener(new View.OnClickListener() {
+            holder.rlsubcategory.setTag(paramInt);
+            holder.rlsubcategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
